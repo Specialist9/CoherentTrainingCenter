@@ -21,11 +21,11 @@ namespace NET01._1Task
 
         public VideoFormat VideoFormatValue { get; set; }
 
-        public VideoMaterial(string description, string urlvideo, string urlsplash, VideoFormat vidformatval) : base (description)
+        public VideoMaterial(string description, string urlVideo, string urlSplash, VideoFormat vidFormatVal) : base (description)
         {
-            URLVideo = String.IsNullOrEmpty(description)? throw new ArgumentNullException(nameof(urlvideo), "URL cannot be empty") : urlvideo;
-            URLSplashScreen = urlsplash;
-            VideoFormatValue = vidformatval;
+            URLVideo = String.IsNullOrEmpty(description)? throw new ArgumentNullException(nameof(urlVideo), "URL cannot be empty") : urlVideo;
+            URLSplashScreen = urlSplash;
+            VideoFormatValue = vidFormatVal;
         }
 
         public override string ToString()

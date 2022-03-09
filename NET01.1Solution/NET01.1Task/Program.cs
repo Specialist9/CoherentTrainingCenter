@@ -12,12 +12,15 @@ try
     //TrainingLesson training2 = new("training2descriptionxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxccccccccccccc");
     TextMaterial textm1 = new("textmdescription", "XYZ");
     VideoMaterial video1 = new("videodescription", "http://www.videourl.com", "http://www.splashscreen.com", VideoMaterial.VideoFormat.Avi);
+    NetworkResource networkLink1 = new("networkResourceDescription", "http://www.content.com", NetworkResource.LinkType.Audio);
 
 
     Console.WriteLine(training1);
     //Console.WriteLine(training2);
     Console.WriteLine(textm1);
     Console.WriteLine(video1);
+    Console.WriteLine(networkLink1);
+
 
 }
 catch (ArgumentOutOfRangeException ex)
