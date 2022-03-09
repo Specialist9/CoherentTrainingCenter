@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NET01._1Task
 {
-    public abstract class Entity
+    public abstract class Entity : ICloneable
     {
         public string? Description { get; set; }
         public Guid ID { get; set; }
@@ -23,7 +23,7 @@ namespace NET01._1Task
             return Description.ToString();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var temp = obj as Entity;
 
@@ -34,5 +34,14 @@ namespace NET01._1Task
             else { return false; }
         }
 
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return (Entity)MemberwiseClone();
+        }
     }
 }

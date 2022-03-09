@@ -29,7 +29,19 @@ try
     networkLink1.CreateUniqueEntityID();
     Console.WriteLine(networkLink1.ID);
     Console.WriteLine(networkLink1.Equals(networkLink2));
-
+    Console.WriteLine("////////////////////////");
+    Console.WriteLine(video1.ReadVersion().ToString());
+    video1.WriteVersion(123456789);
+    Console.WriteLine(video1.ReadVersion().ToString());
+    training1.WriteVersion(123456789);
+    Console.WriteLine(training1.ReadVersion().ToString());
+    Console.WriteLine("////////////////////////");
+    training1.AddTrainingMaterial(video1);
+    var clonedTraining1 = (TrainingLesson)training1.Clone();
+    video1.Description = "NEWDESCRIPTION";
+    var clonedVideo1 = (VideoMaterial)clonedTraining1.TrainingElements[0];
+    Console.WriteLine(clonedVideo1.Description.ToString());
+    Console.WriteLine(video1.Description.ToString());
 
 
 
