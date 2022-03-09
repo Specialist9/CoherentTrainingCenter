@@ -20,10 +20,6 @@ namespace NET01._1Task
             TrainingElements = new Entity[10];
         }
 
-        public override string ToString()
-        {
-            return Description.ToString();
-        }
 
         public void AddTrainingMaterial(Entity newElement)
         {

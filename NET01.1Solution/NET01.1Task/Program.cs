@@ -13,6 +13,7 @@ try
     TextMaterial textm1 = new("textmdescription", "XYZ");
     VideoMaterial video1 = new("videodescription", "http://www.videourl.com", "http://www.splashscreen.com", VideoMaterial.VideoFormat.Avi);
     NetworkResource networkLink1 = new("networkResourceDescription", "http://www.content.com", NetworkResource.LinkType.Audio);
+    NetworkResource networkLink2 = new("networkResourceDescription2", "http://www.content2.com", NetworkResource.LinkType.Video);
 
 
     Console.WriteLine(training1);
@@ -20,6 +21,17 @@ try
     Console.WriteLine(textm1);
     Console.WriteLine(video1);
     Console.WriteLine(networkLink1);
+    Console.WriteLine("////////////////////////");
+    Console.WriteLine(networkLink1.ID);
+    Console.WriteLine(networkLink2.ID);
+    Console.WriteLine(networkLink1.Equals(networkLink2));
+
+    networkLink1.CreateUniqueEntityID();
+    Console.WriteLine(networkLink1.ID);
+    Console.WriteLine(networkLink1.Equals(networkLink2));
+
+
+
 
 
 }

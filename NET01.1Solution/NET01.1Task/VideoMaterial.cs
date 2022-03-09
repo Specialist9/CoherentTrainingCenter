@@ -28,9 +28,5 @@ namespace NET01._1Task
             VideoFormatValue = vidFormatVal;
         }
 
-        public override string ToString()
-        {
-            return Description.ToString();
-        }
     }
 }

@@ -26,9 +26,5 @@ namespace NET01._1Task
             LinkTypeValue = linkValue;
         }
 
-        public override string ToString()
-        {
-            return Description.ToString();
-        }
     }
 }

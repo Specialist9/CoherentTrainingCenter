@@ -17,5 +17,22 @@ namespace NET01._1Task
         {
             Description = description.Length <= DescriptionLength? description : throw new ArgumentOutOfRangeException(nameof(description), "Description max length is 256 char");
         }
+
+        public override string ToString()
+        {
+            return Description.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var temp = obj as Entity;
+
+            if(this.ID == temp.ID)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
     }
 }
