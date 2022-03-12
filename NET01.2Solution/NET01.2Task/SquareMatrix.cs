@@ -6,27 +6,38 @@ using System.Threading.Tasks;
 
 namespace NET01._2Task
 {
-    internal class SquareMatrix<T>
+    public class SquareMatrix<T>
     {
-        public int Size { get; set; }
+        public int Size { get; private set; }
         public T[] MatrixValues { get; set; }
 
-
+        /// <summary>
+        /// Constructor for the matrix class
+        /// </summary>
+        /// <param name="size">Number of rows, which is equal to number of columns</param>
+        /// <exception cref="ArgumentOutOfRangeException">Checks if size of matrix is positive</exception>
         public SquareMatrix(int size)
         {
             Size = size >= 0 ? size : throw new ArgumentOutOfRangeException(nameof(size), "Matrix size cannot be negative");
             MatrixValues = new T[size*size];
         }
 
-        public T this[int i, int j]
+        /// <summary>
+        /// Indexer for accessing matrix elements
+        /// </summary>
+        /// <param name="i">Matrix row number</param>
+        /// <param name="j">Matrix column number</param>
+        /// <returns>Matrix element with [row,column] OR Sets matrix element [row,column]</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Checks if given row/column indices are valid</exception>
+        public virtual T this[int i, int j]
         {
             get
             {
-                int index;
+                int index; //index value of MatrixValues array element calculated using Row and Column indices of the matrix element
                 
                 if(i < 0 || i >= Size || j < 0 || j >= Size)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), "Reading matrix element with invalid index");
+                    throw new ArgumentOutOfRangeException(nameof(index), "Reading square matrix element with invalid index");
                 }
                 else
                 {
@@ -42,7 +53,7 @@ namespace NET01._2Task
 
                 if (i < 0 || i >= Size || j < 0 || j >= Size)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), "Setting matrix element with invalid index");
+                    throw new ArgumentOutOfRangeException(nameof(index), "Setting square matrix element with invalid index");
                 }
                 else
                 {
@@ -57,6 +68,10 @@ namespace NET01._2Task
 
         }
 
+        /// <summary>
+        /// Override standard ToString() to output every matrix cell
+        /// </summary>
+        /// <returns>String of matrix elements divided by comma</returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -67,18 +82,28 @@ namespace NET01._2Task
             }
             return sb.ToString();
         }
+        /// <summary>
+        /// Event for delegate of type EventHandler<Class of> named MatrixElementChanged
+        /// </summary>
+        public event EventHandler<MatrixElementChangedEventArgs<T>> MatrixElementChanged;
 
-        public event EventHandler<MatrixElementChangedEventArgs<T>> MatrixElementChanged; // event
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnMatrixElementChanged(MatrixElementChangedEventArgs<T> e) //broadcaster
         {
             MatrixElementChanged?.Invoke(this, e); //invoke event MatrixElementChangedEventArgs
         }
 
+        /// <summary>
+        /// Method to handle the event of changed matrix element, needs to subscribe to the event to get triggered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Class that stores the event data</param>
         public void WriteMatrixElementChangeDetails(object sender, MatrixElementChangedEventArgs<T> e) //method to subscribe to the event in main program
         {
-            if(MatrixElementChanged != null)
+            if(MatrixElementChanged != null) //if invocation list isn't empty execute the following code
             {
                 Console.WriteLine($"Matrix element [{e.ElementIndexI}, {e.ElementIndexJ}] changed from {e.OldValue} to {e.NewValue}");
             }

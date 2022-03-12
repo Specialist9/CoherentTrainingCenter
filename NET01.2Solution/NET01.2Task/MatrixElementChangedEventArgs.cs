@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace NET01._2Task
 {
+    /// <summary>
+    /// Class that stores the event data for the event of changing a matrix element value
+    /// </summary>
+    /// <typeparam name="T">Generic type</typeparam>
     public class MatrixElementChangedEventArgs<T> : EventArgs
     {
-        public T OldValue;
-        public T NewValue;
-        public int ElementIndexI;
-        public int ElementIndexJ;
+        public readonly T OldValue;
+        public readonly T NewValue;
+        public readonly int ElementIndexI;
+        public readonly int ElementIndexJ;
 
 
         public MatrixElementChangedEventArgs(T oldValue, T newValue, int elementIndexI, int elementIndexJ)
