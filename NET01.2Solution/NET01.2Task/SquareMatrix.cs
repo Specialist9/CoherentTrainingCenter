@@ -83,17 +83,17 @@ namespace NET01._2Task
             return sb.ToString();
         }
         /// <summary>
-        /// Event for delegate of type EventHandler<Class of> named MatrixElementChanged
+        /// Delegate of type EventHandler<Class to hold event data> for the event named MatrixElementChanged
         /// </summary>
         public event EventHandler<MatrixElementChangedEventArgs<T>> MatrixElementChanged;
 
         /// <summary>
-        /// 
+        /// Method that fires the event (to be called by the delegate)
         /// </summary>
         /// <param name="e"></param>
         protected virtual void OnMatrixElementChanged(MatrixElementChangedEventArgs<T> e) //broadcaster
         {
-            MatrixElementChanged?.Invoke(this, e); //invoke event MatrixElementChangedEventArgs
+            MatrixElementChanged?.Invoke(this, e); //if MatrixElementChanged is not null invoke it?
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace NET01._2Task
         /// <param name="e">Class that stores the event data</param>
         public void WriteMatrixElementChangeDetails(object sender, MatrixElementChangedEventArgs<T> e) //method to subscribe to the event in main program
         {
-            if(MatrixElementChanged != null) //if invocation list isn't empty execute the following code
+            if(MatrixElementChanged != null) //if delegate MatrixElementChanged has a method subscribed to it
             {
                 Console.WriteLine($"Matrix element [{e.ElementIndexI}, {e.ElementIndexJ}] changed from {e.OldValue} to {e.NewValue}");
             }

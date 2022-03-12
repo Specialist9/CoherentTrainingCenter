@@ -44,6 +44,5 @@ namespace NET01._2Task
             }
         }
 
-
     }
 }
