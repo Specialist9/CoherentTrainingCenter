@@ -82,22 +82,10 @@ namespace NET01._2Task
                 sb.AppendLine();
                 for (int column = 0; column < Size; column++)
                 {
-                    sb.Append(this[row, column]);
+                    sb.Append($"{this[row, column]} ");
                 }
             }
-            /*int count = 0;
-            var newLine = '\n';
-            for (int i = 1; i < sb.Length; i++)
-            {
-                if(sb[i] is ',')
-                {
-                    count++;
-                }
-                if(count %3 == 0)
-                {
-                    sb[i] = newLine;
-                }
-            }*/
+
             return sb.ToString();
 
         }
