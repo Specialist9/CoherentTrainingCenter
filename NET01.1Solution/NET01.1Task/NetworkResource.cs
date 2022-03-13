@@ -8,7 +8,7 @@ namespace NET01._1Task
 {
     public class NetworkResource : Entity
     {
-        public string URLContent { get; set; }
+        public Uri ContentUri;
 
         public enum LinkType
         {
@@ -22,7 +22,8 @@ namespace NET01._1Task
         public LinkType LinkTypeValue { get; set; }
         public NetworkResource(string description, string urlContent, LinkType linkValue) : base (description)
         {
-            URLContent = String.IsNullOrEmpty(urlContent)? throw new ArgumentNullException(nameof(urlContent), "URL link cannot be empty") : urlContent;
+            ContentUri = Uri.TryCreate(urlContent, UriKind.Absolute, out ContentUri) ? new Uri(urlContent) : throw new ArgumentNullException(nameof(urlContent), "Content URL cannot be empty");
+
             LinkTypeValue = linkValue;
         }
 

@@ -43,6 +43,12 @@ try
     Console.WriteLine(clonedVideo1.Description.ToString());
     Console.WriteLine(video1.Description.ToString());
 
+    Console.WriteLine(video1.VideoUri);
+    Console.WriteLine(video1.SplashScreenUri);
+    Console.WriteLine(networkLink1.ContentUri);
+
+
+
 
 
 

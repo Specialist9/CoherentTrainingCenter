@@ -9,8 +9,8 @@ namespace NET01._1Task
     public class VideoMaterial : Entity, IVersionable
     {
         public byte[] Version;
-        public string URLVideo { get; set; }
-        public string? URLSplashScreen { get; set; }
+        public Uri VideoUri;
+        public Uri SplashScreenUri;
 
         public enum VideoFormat
         {
@@ -24,8 +24,8 @@ namespace NET01._1Task
 
         public VideoMaterial(string description, string urlVideo, string urlSplash, VideoFormat vidFormatVal) : base (description)
         {
-            URLVideo = String.IsNullOrEmpty(description)? throw new ArgumentNullException(nameof(urlVideo), "URL cannot be empty") : urlVideo;
-            URLSplashScreen = urlSplash;
+            VideoUri = Uri.TryCreate (urlVideo, UriKind.Absolute, out VideoUri)? new Uri(urlVideo) : throw new ArgumentNullException(nameof(urlVideo), "Video URL cannot be empty");
+            SplashScreenUri = Uri.TryCreate(urlSplash, UriKind.Absolute, out SplashScreenUri) ? new Uri(urlSplash) : throw new ArgumentNullException(nameof(urlSplash), "Splash screen URL cannot be empty");
             VideoFormatValue = vidFormatVal;
             Version = new byte[8];
         }
