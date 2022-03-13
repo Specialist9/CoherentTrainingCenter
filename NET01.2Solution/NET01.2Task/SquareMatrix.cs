@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace NET01._2Task
 {
@@ -76,11 +77,29 @@ namespace NET01._2Task
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach(var cell in MatrixValues)
+            for (int row = 0; row < Size; row++)
             {
-                sb.Append($"{cell}, ");
+                sb.AppendLine();
+                for (int column = 0; column < Size; column++)
+                {
+                    sb.Append(this[row, column]);
+                }
             }
+            /*int count = 0;
+            var newLine = '\n';
+            for (int i = 1; i < sb.Length; i++)
+            {
+                if(sb[i] is ',')
+                {
+                    count++;
+                }
+                if(count %3 == 0)
+                {
+                    sb[i] = newLine;
+                }
+            }*/
             return sb.ToString();
+
         }
         /// <summary>
         /// Delegate of type EventHandler<Class to hold event data> for the event named MatrixElementChanged
