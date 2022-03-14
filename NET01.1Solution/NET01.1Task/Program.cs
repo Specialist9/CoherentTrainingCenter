@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NET01._1Task;
+using NET011.Task;
 
 try
 {
@@ -48,8 +48,10 @@ try
     Console.WriteLine(networkLink1.ContentUri);
 
 
-
-
+    //training1.AddTrainingMaterial(clonedVideo1 as VideoMaterial);
+    Console.WriteLine(training1.CheckTrainingType());
+    TrainingLesson training3 = new("trainingNr3");
+    Console.WriteLine(training3.CheckTrainingType());
 
 
 }
@@ -60,7 +62,10 @@ catch (ArgumentOutOfRangeException ex)
 catch (ArgumentNullException ex1)
 {
     Console.WriteLine(ex1.Message);
-
+}
+catch (ArgumentException exArg)
+{
+    Console.Write(exArg.Message);
 }
 
 

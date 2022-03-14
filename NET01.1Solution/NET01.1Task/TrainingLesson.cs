@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._1Task
+namespace NET011.Task
 {
     public class TrainingLesson : Entity, IVersionable, ICloneable
     {
@@ -36,14 +36,8 @@ namespace NET01._1Task
 
         public LessonType CheckTrainingType()
         {
-            for(int i = 0; i < TrainingElements.Length; i++)
-            {
-                if(TrainingElements[i] is VideoMaterial)
-                {
-                    return LessonType.VideoLesson;
-                }
-            }
-            return LessonType.TextLesson;
+            var lessonType = TrainingElements.Any(x => x is VideoMaterial)? LessonType.VideoLesson : LessonType.TextLesson;
+            return lessonType;
         }
 
         public string ReadVersion()

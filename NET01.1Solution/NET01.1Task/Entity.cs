@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._1Task
+namespace NET011.Task
 {
     public abstract class Entity : ICloneable
     {
@@ -27,11 +27,14 @@ namespace NET01._1Task
         {
             var temp = obj as Entity;
 
-            if(this.ID == temp.ID)
+            if(temp != null && this.ID == temp.ID)
             {
                 return true;
             }
-            else { return false; }
+            else 
+            { 
+                return false; 
+            }
         }
 
         public override int GetHashCode()

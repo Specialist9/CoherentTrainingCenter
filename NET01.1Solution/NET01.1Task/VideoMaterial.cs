@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._1Task
+namespace NET011.Task
 {
     public class VideoMaterial : Entity, IVersionable
     {
@@ -24,7 +24,7 @@ namespace NET01._1Task
 
         public VideoMaterial(string description, string urlVideo, string urlSplash, VideoFormat vidFormatVal) : base (description)
         {
-            VideoUri = Uri.TryCreate (urlVideo, UriKind.Absolute, out VideoUri)? new Uri(urlVideo) : throw new ArgumentNullException(nameof(urlVideo), "Video URL cannot be empty");
+            VideoUri = Uri.TryCreate (urlVideo, UriKind.Absolute, out VideoUri)? new Uri(urlVideo) : throw new ArgumentException(nameof(urlVideo), "Video URL cannot be empty");
             SplashScreenUri = Uri.TryCreate(urlSplash, UriKind.Absolute, out SplashScreenUri) ? new Uri(urlSplash) : throw new ArgumentNullException(nameof(urlSplash), "Splash screen URL cannot be empty");
             VideoFormatValue = vidFormatVal;
             Version = new byte[8];

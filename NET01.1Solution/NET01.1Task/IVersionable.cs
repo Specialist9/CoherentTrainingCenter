@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._1Task
+namespace NET011.Task
 {
     public interface IVersionable
     {
