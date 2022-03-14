@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._2Task
+namespace NET012.Task
 {
     /// <summary>
     /// Class that stores the event data for the event of changing a matrix element value

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace NET01._2Task
+namespace NET012.Task
 {
     public class SquareMatrix<T>
     {

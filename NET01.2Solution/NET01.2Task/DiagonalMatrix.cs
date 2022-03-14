@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET01._2Task
+namespace NET012.Task
 {
     public class DiagonalMatrix<T> : SquareMatrix<T>
     {
