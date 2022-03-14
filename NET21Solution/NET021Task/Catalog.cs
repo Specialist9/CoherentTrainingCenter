@@ -8,7 +8,7 @@ namespace NET021Task
 {
     internal class Catalog
     {
-        IEnumerable<Book> Books { get; set; }
+        public List<Book> Books { get; private set; }
 
         public Catalog()
         {
@@ -19,10 +19,32 @@ namespace NET021Task
         {
             get
             {
-                if(Book.ISBNPattern1.Equals(isbn));
-                bool bookExists = Books.Any(x => x.ISBN == isbn);
-                return Books.Select(x => x.ISBN == isbn) as Book;
+                if (!Book.ISBNPattern1.IsMatch(isbn))
+                {
+                    throw new ArgumentException(nameof(isbn), "ISBN format not supported");
+                }
+                else if (!Books.Any(x => x.ISBN.Equals(isbn)))
+                {
+                    throw new KeyNotFoundException("ISBN key not found");
+                }
+                else
+                {
+                    return Books.First(x => x.ISBN.Equals(isbn)) as Book;
+                }
             }
+        }
+
+        public void AddBook(Book book)
+        {
+            if (Books.Any(x => x.ISBN == book.ISBN))
+            {
+                throw new InvalidOperationException("Book with given ISBN number already exists");
+            }
+            else
+            {
+                Books.Add(book);
+            }
+
         }
     }
 }

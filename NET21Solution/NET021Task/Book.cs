@@ -39,6 +39,11 @@ namespace NET021Task
             BookAuthors = authors;
         }
 
+        public Book()
+        {
+
+        }
+
         public override bool Equals(object? obj)
         {
             var other = obj as Book;
@@ -49,6 +54,13 @@ namespace NET021Task
         public override int GetHashCode()
         {
             return ISBN.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"ISBN: {ISBN} / Title: {Title} / Publication Date: {PublicationDate} / Author(s): {BookAuthors}");
+            return sb.ToString();
         }
     }
 }
