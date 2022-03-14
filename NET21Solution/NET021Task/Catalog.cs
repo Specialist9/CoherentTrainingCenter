@@ -44,7 +44,6 @@ namespace NET021Task
             {
                 Books.Add(book);
             }
-
         }
     }
 }
