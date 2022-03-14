@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+namespace NET021Task
+{
+    internal class Book
+    {
+        public string ISBN { get; }
+        public string Title { get; }
+        public DateTime? PublicationDate { get; }
+        public Author[]? BookAuthors { get; }
+
+        public static Regex ISBNPattern1 = new Regex(@"^[0-9]{13}$");
+        public static Regex ISBNPattern2 = new Regex(@"^[0-9]{3}\-[0-9]\-[0-9]{2}\-[0-9]{6}\-[0-9]$");
+
+        public Book(string isbn, string title, DateTime date, Author[] authors)
+        {
+            if (ISBNPattern1.IsMatch(isbn))
+            {
+                ISBN = isbn;
+            }
+            else if (ISBNPattern2.IsMatch(isbn))
+            {
+                string ISBNToPattern1 = Regex.Replace(isbn, @"[^0-9]", "");
+                ISBN = ISBNToPattern1;
+            }
+            else
+            {
+                throw new ArgumentException(nameof(isbn), "ISBN format not supported");
+            }
+
+            Title = (String.IsNullOrEmpty(title) || title.Length > 1000) ? throw new ArgumentException(nameof(title), "Book title cannot be empty or longer than 1000 chars") : title;
+
+            PublicationDate = date;
+            BookAuthors = authors;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Book;
+            bool isbnIsEqual = (other != null && ISBN.Equals(other.ISBN)) ? true : false;
+            return isbnIsEqual;
+        }
+
+        public override int GetHashCode()
+        {
+            return ISBN.GetHashCode();
+        }
+    }
+}
