@@ -12,7 +12,7 @@ namespace NET021Task
         public string ISBN { get; }
         public string Title { get; }
         public DateTime? PublicationDate { get; }
-        public Author[]? BookAuthors { get; }
+        public Author[] BookAuthors { get; }
 
         public static Regex ISBNPattern1 = new Regex(@"^[0-9]{13}$");
         public static Regex ISBNPattern2 = new Regex(@"^[0-9]{3}\-[0-9]\-[0-9]{2}\-[0-9]{6}\-[0-9]$");
@@ -59,7 +59,9 @@ namespace NET021Task
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"ISBN: {ISBN} / Title: {Title} / Publication Date: {PublicationDate} / Author(s): {BookAuthors}");
+            StringBuilder authors = new StringBuilder();
+            Array.ForEach(BookAuthors, x => authors.Append($"{x.ToString()}, "));
+            sb.Append($"ISBN: {ISBN} / Title: {Title} / Publication Date: {PublicationDate} / Author(s): {authors}");
             return sb.ToString();
         }
     }

@@ -17,5 +17,12 @@ namespace NET021Task
             LastName = (String.IsNullOrEmpty(lastName) || lastName.Length > 200) ? throw new ArgumentOutOfRangeException(nameof(lastName), "Last name cannot be empty or longer thn 200 chars") : lastName;
         }
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{FirstName} {LastName}");
+            return sb.ToString();
+        }
+
     }
 }

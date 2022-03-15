@@ -56,5 +56,10 @@ namespace NET021Task
         {
             return ((IEnumerable)Books).GetEnumerator();
         }
+
+        public List<Book> GetBooksByAuthorName(string firstName, string lastName)
+        {
+            return Books.Where(x => x.BookAuthors.Any(y => y.FirstName == firstName && y.LastName == lastName)).ToList();
+        }
     }
 }
