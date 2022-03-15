@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NET021Task
 {
-    internal class Catalog
+    internal class Catalog : IEnumerable<Book>
     {
         public List<Book> Books { get; private set; }
 
@@ -44,6 +45,16 @@ namespace NET021Task
             {
                 Books.Add(book);
             }
+        }
+
+        public IEnumerator<Book> GetEnumerator()
+        {
+            return Books.OrderBy(x => x.Title).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)Books).GetEnumerator();
         }
     }
 }
