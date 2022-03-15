@@ -5,7 +5,7 @@ try
     Author jackBlack = new("Jack", "Black");
     Author jackWhite = new("Jack", "White");
     Author[] twoAuthors = { jackBlack, jackWhite };
-    Book newBook1 = new("1234567891234", "NewTitle11", new(), new[] { jackWhite});
+    Book newBook1 = new("1234567891234", "NewTitle11", new(2017, 05, 06), new[] { jackWhite});
     Book newBook2 = new("123-4-56-789123-5", "NewTitle2", DateTime.Now, new Author[]{ jackBlack });
     Book newBook3 = new("1234567891236", "NewTitle0", new(2022, 03, 14), new []{new Author("Mike", "Brown"), jackBlack});
     Book newBook4 = new("1234567891238", "NewTitle0", new(2022, 03, 14), twoAuthors);
@@ -32,8 +32,14 @@ try
     {
         Console.WriteLine(item);
     }
+    Console.WriteLine("//////////////////////////////");
+    var pubDateDesc = newCatalog.GetBooksByPublicationDateDesc();
 
-
+    foreach (var item in pubDateDesc)
+    {
+        Console.WriteLine(item);
+    }
+    //newCatalog.GetNumerOfBooksByAuthor();
 
 }
 catch (ArgumentOutOfRangeException argRangeEx)

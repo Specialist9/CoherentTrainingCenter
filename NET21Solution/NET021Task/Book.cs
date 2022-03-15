@@ -12,7 +12,7 @@ namespace NET021Task
         public string ISBN { get; }
         public string Title { get; }
         public DateTime? PublicationDate { get; }
-        public Author[] BookAuthors { get; }
+        public Author[]? BookAuthors { get; }
 
         public static Regex ISBNPattern1 = new Regex(@"^[0-9]{13}$");
         public static Regex ISBNPattern2 = new Regex(@"^[0-9]{3}\-[0-9]\-[0-9]{2}\-[0-9]{6}\-[0-9]$");

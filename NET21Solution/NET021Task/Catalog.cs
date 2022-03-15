@@ -61,5 +61,20 @@ namespace NET021Task
         {
             return Books.Where(x => x.BookAuthors.Any(y => y.FirstName == firstName && y.LastName == lastName)).ToList();
         }
+
+        public List<Book> GetBooksByPublicationDateDesc()
+        {
+            return Books.OrderByDescending(x => x.PublicationDate).ToList();
+        }
+
+        public List<(Author[], int)> GetNumerOfBooksByAuthor() //This doesn't work
+        {
+            /*return Books.GroupBy(g => g.BookAuthors).
+                Select(g => new { Authors = g.Key, NumberOfBooks = g.Count() })
+                .Select(t => new Tuple<Author[], int>(t.Authors, t.NumberOfBooks))
+                .ToList();*/
+            throw new NotImplementedException();
+         
+        }
     }
 }
