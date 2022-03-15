@@ -12,9 +12,8 @@ namespace NET021Task.Tests
             //Arrange
             string firstName = "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy";
             string lastName = "xxxxxxxxx";
-            //Author authorTest = new Author(firstName, lastName);
 
-            //Act and Assert
+            //Act
             try
             {
                 var author = new Author(firstName, lastName);
