@@ -57,9 +57,9 @@ namespace NET021Task
             return ((IEnumerable)Books).GetEnumerator();
         }
 
-        public List<Book> GetBooksByAuthorName(string firstName, string lastName)
+        public List<Book> GetBooksByAuthorName(Author author)
         {
-            return Books.Where(x => x.BookAuthors.Any(y => y.FirstName == firstName && y.LastName == lastName)).ToList();
+            return Books.Where(x => x.BookAuthors.Any(y => y.FirstName == author.FirstName && y.LastName == author.LastName)).ToList();
         }
 
         public List<Book> GetBooksByPublicationDateDesc()
@@ -67,14 +67,13 @@ namespace NET021Task
             return Books.OrderByDescending(x => x.PublicationDate).ToList();
         }
 
-        public List<(Author[], int)> GetNumerOfBooksByAuthor() //This doesn't work
+        public IEnumerable<Tuple<Author, int>> GetNumerOfBooksByAuthor()
         {
-            /*return Books.GroupBy(g => g.BookAuthors).
-                Select(g => new { Authors = g.Key, NumberOfBooks = g.Count() })
-                .Select(t => new Tuple<Author[], int>(t.Authors, t.NumberOfBooks))
-                .ToList();*/
-            throw new NotImplementedException();
-         
+            return (from book in Books
+                   from author in book.BookAuthors
+                   group book by author into g
+                   select new Tuple<Author, int>(item1: g.Key, item2 : g.Count())).ToList();
+
         }
     }
 }

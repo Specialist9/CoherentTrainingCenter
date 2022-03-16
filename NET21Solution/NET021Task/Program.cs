@@ -26,7 +26,7 @@ try
         Console.WriteLine(item.ToString());
     }
     Console.WriteLine("//////////////////////////////");
-    var temp = newCatalog.GetBooksByAuthorName("Jack", "Black");
+    var temp = newCatalog.GetBooksByAuthorName(jackBlack);
 
     foreach (var item in temp)
     {
@@ -39,7 +39,20 @@ try
     {
         Console.WriteLine(item);
     }
-    //newCatalog.GetNumerOfBooksByAuthor();
+    Console.WriteLine("//////////////////////////////");
+
+    var booksgroupedbyauthor = newCatalog.GetNumerOfBooksByAuthor();
+    foreach (var item in booksgroupedbyauthor)
+    {
+        Console.WriteLine(item);
+    }
+
+    /*foreach (var grouping in booksgroupedbyauthor)
+    {
+        Console.WriteLine("Extension: " + grouping.Key);
+        foreach (Book book in grouping)
+            Console.WriteLine(" - " + book);
+    }*/
 
 }
 catch (ArgumentOutOfRangeException argRangeEx)

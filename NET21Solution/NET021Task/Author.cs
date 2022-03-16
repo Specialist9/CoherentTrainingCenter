@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace NET021Task
 {
-    public class Author
+    public struct Author
     {
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
+        public string FirstName { get; }
+        public string LastName { get; }
 
         public Author(string firstName, string lastName)
         {
@@ -19,7 +19,7 @@ namespace NET021Task
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new ();
             sb.Append($"{FirstName} {LastName}");
             return sb.ToString();
         }
