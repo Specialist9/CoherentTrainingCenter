@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace NET021Task
 {
-    internal class Book
+    public class Book
     {
         public string ISBN { get; }
         public string Title { get; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NET021Task
 {
-    internal class Catalog : IEnumerable<Book>
+    public class Catalog : IEnumerable<Book>
     {
         public List<Book> Books { get; private set; }
 
