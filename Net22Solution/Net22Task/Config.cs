@@ -53,5 +53,21 @@ namespace Net22Task
 
 		[XmlElement(ElementName = "login")]
 		public List<Login> Login { get; set; }
-	}
+
+        public override string ToString()
+        {
+            StringBuilder sb = new ();
+			foreach(var login in Login)
+            {
+				sb.AppendLine($"Login: {login.Name}");
+				foreach(var window in login.Window)
+                {
+					sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
+
+                }
+				sb.AppendLine();
+            }
+			return sb.ToString();
+        }
+    }
 }

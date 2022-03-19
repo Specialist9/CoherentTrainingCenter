@@ -25,6 +25,7 @@ Config config = ser.Deserialize<Config>(xmlInputData);
 //Console.ReadLine();
 
 Console.WriteLine($"{config.Login[0].Window[1].Left}");
+Console.WriteLine(config.ToString());
 
 
 /*
