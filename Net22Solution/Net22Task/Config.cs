@@ -27,9 +27,14 @@ namespace Net22Task
 		[XmlAttribute(AttributeName = "title")]
 		public string Title { get; set; }
 
-		/*
+		public bool MainWindowHasAllElements()
+        {
+			return Top > 0 && Left > 0 && Width > 0 && Height > 0 && Title == "main";
+        }
+
+		
 		[XmlText]
-		public int Text { get; set; }*/
+		public string Text { get; set; }
 	}
 
 	[XmlRoot(ElementName = "login")]
@@ -42,9 +47,31 @@ namespace Net22Task
 		[XmlAttribute(AttributeName = "name")]
 		public string Name { get; set; }
 
-		/*
-		[XmlText]
-		public double Text { get; set; }*/
+		public bool LoginHasOnlyOneMainWindow()
+        {
+			return Window.Where(x => x.Title == "main").Count() == 1;
+        }
+
+		public bool LoginIsValid()
+        {
+			return LoginHasOnlyOneMainWindow() && Window.Where(x => x.MainWindowHasAllElements()).Any();
+		}
+		
+
+        public override string ToString()
+        {
+			StringBuilder sb = new();
+			sb.Append(Name);
+			foreach (var window in Window)
+			{
+				sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
+			}
+			return sb.ToString();
+        }
+
+
+        [XmlText]
+		public string Text { get; set; }
 	}
 
 	[XmlRoot(ElementName = "config")]
@@ -54,18 +81,28 @@ namespace Net22Task
 		[XmlElement(ElementName = "login")]
 		public List<Login> Login { get; set; }
 
+		public string PrintInvalidLogins()
+        {
+			StringBuilder stringBuilder = new();
+			foreach(var login in Login)
+            {
+				if(!login.LoginIsValid())
+				stringBuilder.Append(login.ToString());
+            }
+			return stringBuilder.ToString();
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new ();
 			foreach(var login in Login)
             {
 				sb.AppendLine($"Login: {login.Name}");
+
 				foreach(var window in login.Window)
                 {
 					sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
-
                 }
-				sb.AppendLine();
             }
 			return sb.ToString();
         }
