@@ -5,10 +5,8 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Collections.Generic;
 using System.Xml.XPath;
+using System.Text.Json;
 using Net22Task;
-
-
-//XDocument xml = XDocument.Load(@"C:\Users\KestutisKravcovas\source\repos\CoherentTrainingCenter\Net22Solution\Net22Task\XMLConfig.xml");
 
 
 XMLToObjectDeserializer ser = new XMLToObjectDeserializer();
@@ -18,51 +16,40 @@ string xmlInputData = string.Empty;
 path = Directory.GetCurrentDirectory() + @"\XMLConfig.xml";
 xmlInputData = File.ReadAllText(path);
 
+string pathForJSON = Directory.GetCurrentDirectory() + @"\Config";
+
+
 // Create classes into manually created Config.cs
 Config config = ser.Deserialize<Config>(xmlInputData);
 
-//Create classes into XSD xreated XMLConfig.cs
+//Create classes into XSD created XMLConfig.cs
 config XMLConfig = ser.Deserialize<config>(xmlInputData);
 
 
 
 Console.WriteLine($"{config.Login[0].Window[1].Left}");
 Console.WriteLine(config.ToString());
-Console.WriteLine("1111111111111111");
-XMLConfigValidator validate = new("XMLConfig.xml");
-Console.WriteLine(validate.ValidateXMLFile());
+Console.WriteLine("---------------------------");
+
+
+Console.WriteLine("Validation result XMLConfig.xml");
+
+foreach(var login in config.Login)
+{
+    Console.WriteLine($"{login.Name} - {login.LoginIsValid().ToString()}");
+}
 
 Console.WriteLine(config.PrintInvalidLogins());
-Console.ReadLine();
+
+Console.WriteLine("---------------------------");
+
+
+Directory.CreateDirectory(pathForJSON);
+
+ConfigToJSONSerializer loginsToJson = new(config);
+loginsToJson.SerializeConfig();
 
 
 
-/*
-var query = from login in xml.Descendants("login")
-			 from window in login.Elements("window")
-			 from sizes in window.Elements()
-			 select new
-			 {
-				 User = login.Attribute("name").Value,
-				 Window = window.Attribute("title").Value,
-				 Values = sizes.Value
-			 };
-
-var queryGrouped = from item in query
-					group item by new { item.User, item.Window } into g
-					select g;
 
 
-Console.WriteLine("---------Query-----------");
-foreach (var element in queryGrouped)
-{
-	Console.WriteLine($"{element.Key}");
-	foreach (var item in element)
-	{
-		Console.Write($"{item.Values},");
-
-	}
-	Console.WriteLine();
-
-}
-*/

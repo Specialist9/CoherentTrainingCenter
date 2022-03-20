@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Net22Task
 {
@@ -13,16 +18,17 @@ namespace Net22Task
 	{
 
 		[XmlElement(ElementName = "top")]
-		public int Top { get; set; }
+		public int? Top { get; set; }
 
 		[XmlElement(ElementName = "left")]
-		public int Left { get; set; }
+		public int? Left { get; set; }
+
 
 		[XmlElement(ElementName = "width")]
-		public int Width { get; set; }
+		public int? Width { get; set; }
 
 		[XmlElement(ElementName = "height")]
-		public int Height { get; set; }
+		public int? Height { get; set; }
 
 		[XmlAttribute(AttributeName = "title")]
 		public string Title { get; set; }
@@ -52,16 +58,32 @@ namespace Net22Task
 			return Window.Where(x => x.Title == "main").Count() == 1;
         }
 
+		public bool LoginHasNoMainWindow()
+        {
+			return Window.Where(x => x.Title == "main").Count() == 0;
+		}
+
 		public bool LoginIsValid()
         {
-			return LoginHasOnlyOneMainWindow() && Window.Where(x => x.MainWindowHasAllElements()).Any();
+			if(LoginHasOnlyOneMainWindow() && Window.Where(x => x.MainWindowHasAllElements()).Any())
+            {
+				return true;
+            }
+			else if (LoginHasNoMainWindow())
+            {
+				return true;
+            }
+            else
+            {
+				return false;
+            }
 		}
 		
 
         public override string ToString()
         {
 			StringBuilder sb = new();
-			sb.Append(Name);
+			sb.AppendLine(Name);
 			foreach (var window in Window)
 			{
 				sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
@@ -83,13 +105,14 @@ namespace Net22Task
 
 		public string PrintInvalidLogins()
         {
-			StringBuilder stringBuilder = new();
+			StringBuilder sb = new();
+			sb.AppendLine("Invalid Logins:");
 			foreach(var login in Login)
             {
 				if(!login.LoginIsValid())
-				stringBuilder.Append(login.ToString());
+				sb.Append(login.ToString());
             }
-			return stringBuilder.ToString();
+			return sb.ToString();
         }
 
         public override string ToString()
