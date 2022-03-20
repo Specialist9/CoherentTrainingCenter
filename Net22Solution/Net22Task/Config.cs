@@ -124,7 +124,10 @@ namespace Net22Task
 
 				foreach(var window in login.Window)
                 {
-					sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
+					sb.Append($"{window.Title.ToString()} ({(window.Top == null ? "?" : window.Top)}," +
+														$" {(window.Left == null ? "?" : window.Left)}," +
+														$" {(window.Width == null ? "?" : window.Width)}," +
+														$" {(window.Height == null ? "?" : window.Height)}) \n");
                 }
             }
 			return sb.ToString();
