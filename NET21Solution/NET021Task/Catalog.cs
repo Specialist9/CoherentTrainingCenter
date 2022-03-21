@@ -30,7 +30,7 @@ namespace NET021Task
                 }
                 else
                 {
-                    return Books.First(x => x.ISBN.Equals(isbn)) as Book;
+                    return Books.First(x => x.ISBN.Equals(isbn));
                 }
             }
         }

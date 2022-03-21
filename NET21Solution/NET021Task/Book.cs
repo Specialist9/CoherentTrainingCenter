@@ -25,8 +25,7 @@ namespace NET021Task
             }
             else if (ISBNPattern2.IsMatch(isbn))
             {
-                string ISBNToPattern1 = Regex.Replace(isbn, @"[^0-9]", "");
-                ISBN = ISBNToPattern1;
+                ISBN = Regex.Replace(isbn, @"[^0-9]", ""); ;
             }
             else
             {
@@ -47,8 +46,7 @@ namespace NET021Task
         public override bool Equals(object? obj)
         {
             var other = obj as Book;
-            bool isbnIsEqual = (other != null && ISBN.Equals(other.ISBN)) ? true : false;
-            return isbnIsEqual;
+            return other != null && ISBN.Equals(other.ISBN);
         }
 
         public override int GetHashCode()

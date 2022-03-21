@@ -12,6 +12,7 @@ namespace NET021Task.Tests
     public class CatalogTests
     {
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException), "Book with given ISBN number already exists")]
         public void AddBook_BookISBNExists_ThrowsInvalidOperationException()
         {
             //Arrange
@@ -22,6 +23,8 @@ namespace NET021Task.Tests
             testCatalog.Books.Add(newBookX);
 
             //Act
+            testCatalog.AddBook(newBookX2);
+            /*
             try
             {
                 testCatalog.AddBook(newBookX2);
@@ -33,6 +36,7 @@ namespace NET021Task.Tests
                 return;
             }
             Assert.Fail("Expected exception not thrown");
+            */
         }
     }
 }
