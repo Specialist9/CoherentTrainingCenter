@@ -8,46 +8,49 @@ using System.Xml.XPath;
 using System.Text.Json;
 using Net22Task;
 
+//Check XML file for valid logins and display result
+XmlLoginValidator configVal1 = new("XMLConfig.xml");
+Console.WriteLine(configVal1.DisplayLoginValidity());
 
+//Mark XML file Login elements with isvalid attribute according to validity
+InvalidLoginMarker marker1 = new("XMLConfig.xml");
+marker1.MarkInvalidLogins();
+
+//Deserialize Marked XML file to objects
 XMLToObjectDeserializer ser = new XMLToObjectDeserializer();
 string path = string.Empty;
 string xmlInputData = string.Empty;
 
-path = Directory.GetCurrentDirectory() + @"\XMLConfig.xml";
+path = Directory.GetCurrentDirectory() + @"\XMLConfigMarked.xml";
 xmlInputData = File.ReadAllText(path);
 
-string pathForJSON = Directory.GetCurrentDirectory() + @"\Config";
-
-
-// Create classes into manually created Config.cs
+// Create classes from Marked XML into manually created Config.cs
 Config config = ser.Deserialize<Config>(xmlInputData);
 
-//Create classes into XSD created XMLConfig.cs
-config XMLConfig = ser.Deserialize<config>(xmlInputData);
-
-
-
-Console.WriteLine($"{config.Login[0].Window[1].Left}");
+//Display all logins
 Console.WriteLine(config.ToString());
-Console.WriteLine("---------------------------");
 
+//Display invalid logins
+Console.WriteLine(config.DisplayInvalidLogins().ToString());
 
-Console.WriteLine("Validation result XMLConfig.xml");
-
-foreach(var login in config.Login)
-{
-    Console.WriteLine($"{login.Name} - {login.LoginIsValid().ToString()}");
-}
-
-Console.WriteLine(config.PrintInvalidLogins());
-
-Console.WriteLine("---------------------------");
-
-
-Directory.CreateDirectory(pathForJSON);
-
+//Create JSON Serializer and serialize created classes into JSON file
 ConfigToJSONSerializer loginsToJson = new(config);
 loginsToJson.SerializeConfig();
+
+
+
+//Create classes into XSD created XMLConfig.cs
+//config XMLConfig = ser.Deserialize<config>(xmlInputData);
+
+
+//Console.WriteLine($"{config.Login[0].Window[1].Left}");
+
+
+
+
+
+
+
 
 
 

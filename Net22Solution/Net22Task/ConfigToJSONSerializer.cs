@@ -47,6 +47,7 @@ namespace Net22Task
                 string jsonString = JsonSerializer.Serialize(login);
 
                 File.WriteAllText(pathAndFileName, jsonString);
+                //Console.WriteLine(File.ReadAllText(pathAndFileName));
                 
             }
 

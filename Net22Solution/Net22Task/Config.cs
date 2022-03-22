@@ -53,6 +53,9 @@ namespace Net22Task
 		[XmlAttribute(AttributeName = "name")]
 		public string Name { get; set; }
 
+		[XmlAttribute(AttributeName = "isvalid")]
+		public bool Isvalid { get; set; }
+
 		public bool LoginHasOnlyOneMainWindow()
         {
 			return Window.Where(x => x.Title == "main").Count() == 1;
@@ -65,18 +68,7 @@ namespace Net22Task
 
 		public bool LoginIsValid()
         {
-			if(LoginHasOnlyOneMainWindow() && Window.Where(x => x.MainWindowHasAllElements()).Any())
-            {
-				return true;
-            }
-			else if (LoginHasNoMainWindow())
-            {
-				return true;
-            }
-            else
-            {
-				return false;
-            }
+			return Isvalid;
 		}
 		
 
@@ -103,21 +95,10 @@ namespace Net22Task
 		[XmlElement(ElementName = "login")]
 		public List<Login> Login { get; set; }
 
-		public string PrintInvalidLogins()
-        {
-			StringBuilder sb = new();
-			sb.AppendLine("Invalid Logins:");
-			foreach(var login in Login)
-            {
-				if(!login.LoginIsValid())
-				sb.Append(login.ToString());
-            }
-			return sb.ToString();
-        }
-
         public override string ToString()
         {
             StringBuilder sb = new ();
+			sb.AppendLine("All logins");
 			foreach(var login in Login)
             {
 				sb.AppendLine($"Login: {login.Name}");
@@ -132,5 +113,29 @@ namespace Net22Task
             }
 			return sb.ToString();
         }
-    }
+
+		public string DisplayInvalidLogins()
+		{
+			StringBuilder sb = new();
+			sb.AppendLine("Invalid Logins");
+			foreach (var login in Login)
+			{
+                if (!login.LoginIsValid())
+                {
+					sb.AppendLine($"Login: {login.Name}");
+
+					foreach (var window in login.Window)
+					{
+						sb.Append($"{window.Title.ToString()} ({(window.Top == null ? "?" : window.Top)}," +
+															$" {(window.Left == null ? "?" : window.Left)}," +
+															$" {(window.Width == null ? "?" : window.Width)}," +
+															$" {(window.Height == null ? "?" : window.Height)}) \n");
+					}
+				}
+
+			}
+			return sb.ToString();
+		}
+
+	}
 }
