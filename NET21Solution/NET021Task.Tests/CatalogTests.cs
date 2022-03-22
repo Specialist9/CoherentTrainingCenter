@@ -24,19 +24,7 @@ namespace NET021Task.Tests
 
             //Act
             testCatalog.AddBook(newBookX2);
-            /*
-            try
-            {
-                testCatalog.AddBook(newBookX2);
-            }
-            catch (InvalidOperationException ex)
-            {
-                //Assert
-                StringAssert.Contains(ex.Message, "Book with given ISBN number already exists");
-                return;
-            }
-            Assert.Fail("Expected exception not thrown");
-            */
+
         }
     }
 }

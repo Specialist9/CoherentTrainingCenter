@@ -21,21 +21,7 @@ namespace NET021Task.Tests
 
             //Act
             var author = new Author(firstName, lastName);
-            /*
-            try
-            {
-                var author = new Author(firstName, lastName);
-            }
-            catch(System.ArgumentOutOfRangeException ex)
-            {
-                //Assert
-                StringAssert.Contains(ex.Message, "First name cannot be empty or longer than 200 chars");
-                return;
-            }
-            //Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => new Author(firstName, lastName));
-            
-            Assert.Fail("Expected exception not thrown");
-            */
+
         }
     }
 }
