@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Listeners", "Listeners\Listeners.csproj", "{01AD6B3F-3EE7-4585-A667-D22E826665FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerApp", "Logger\LoggerApp.csproj", "{C34342B7-73F6-4258-9C6D-4637A23574FC}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01AD6B3F-3EE7-4585-A667-D22E826665FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01AD6B3F-3EE7-4585-A667-D22E826665FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01AD6B3F-3EE7-4585-A667-D22E826665FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01AD6B3F-3EE7-4585-A667-D22E826665FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C34342B7-73F6-4258-9C6D-4637A23574FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34342B7-73F6-4258-9C6D-4637A23574FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C34342B7-73F6-4258-9C6D-4637A23574FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C34342B7-73F6-4258-9C6D-4637A23574FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
