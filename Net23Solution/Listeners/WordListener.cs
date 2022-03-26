@@ -35,7 +35,7 @@ namespace Listeners
             doc1.Save("Document.docx");
             */
 
-            var newFile2 = @"WordListener.docx";
+            var newFile2 = FileName;
             using (var fs = new FileStream(newFile2, FileMode.Create, FileAccess.Write))
             {
                 XWPFDocument doc = new XWPFDocument();
@@ -50,7 +50,7 @@ namespace Listeners
                 r1.SetText(message);
 
                 doc.Write(fs);
-                Console.WriteLine("I'm writing to WordListener.docx");
+                Console.WriteLine($"I'm writing to {FileName}");
             }
 
         }

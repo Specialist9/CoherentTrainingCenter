@@ -16,8 +16,8 @@ namespace Listeners
 
         public void WriteToLogFile(string message)
         {
-            File.WriteAllText("TextListener.txt", message);
-            Console.WriteLine("I'm writing to TextListener.txt");
+            File.WriteAllText(FileName, message);
+            Console.WriteLine($"I'm writing to {FileName}");
         }
     }
 }

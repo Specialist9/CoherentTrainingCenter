@@ -21,8 +21,8 @@ namespace Listeners
         public void WriteToLogFile(string message)
         {
             string source = "LoggerApp";
-            string log = "Application";
-            int eventID = 45;
+            string log = EventLogName;
+            int eventID = 23;
 
 
             if (!EventLog.SourceExists(source))
