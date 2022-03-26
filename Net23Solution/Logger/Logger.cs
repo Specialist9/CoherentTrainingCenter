@@ -1,22 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System.Configuration;
+using System.Reflection;
+using Listeners;
 
 namespace LoggerApp
 {
-    internal class Logger
+    public class Logger
     {
+        public List<IListener> Listeners { get; set; }
+        public LogLevel LogLevelValue { get; set; }
+
+        public enum LogLevel
+        {
+            Error = 0,
+            Warning = 1,
+            Debug = 2
+        }
+
         public Logger()
         {
+            IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("appsettings2.json");
+            var cfg = builder.Build();
+
+            Listeners = new List<IListener>();
+
+            var textListen = cfg.GetSection(TextListenerConfig.SectionName).Get<TextListenerConfig>();
+            var wordListen = cfg.GetSection(WordListenerConfig.SectionName).Get<WordListenerConfig>();
+            var eventLogListen = cfg.GetSection(EventLogListenerConfig.SectionName).Get<EventLogListenerConfig>();
+            
+            if (textListen != null)
+            {
+                TextListener textListener1 = new(textListen);
+                Listeners.Add(textListener1);
+            }
+            if (wordListen != null)
+            {
+                WordListener wordListener1 = new(wordListen);
+                Listeners.Add(wordListener1);
+            }
+            if (eventLogListen != null)
+            {
+                EventLogListener eventLogListener1 = new(eventLogListen);
+                Listeners.Add(eventLogListener1);
+            }
 
         }
 
-        public void Track(object testObject)
+        public void Track(object testObject, LogLevel logginglevel)
         {
             var objType = testObject.GetType(); //get passed object type
 
@@ -56,12 +99,17 @@ namespace LoggerApp
                         }
                     }
                 }
-                /*
+                
                 string json = JsonSerializer.Serialize(propsAndValues);
-                File.WriteAllText(FileName, json);
-                Console.WriteLine(File.ReadAllText(FileName));
-                */
+                LogLevelValue = logginglevel;
 
+                foreach (var listener in Listeners)
+                {
+                    if (listener != null && listener.MinLogLevel >= (int)LogLevelValue)
+                    {
+                        listener.WriteToLogFile(json);
+                    }
+                }
 
             }
         }

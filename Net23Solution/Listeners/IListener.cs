@@ -8,6 +8,7 @@ namespace Listeners
 {
     public interface IListener
     {
-        public string WriteToTxtFile(string message);
+        public void WriteToLogFile(string message);
+        public int MinLogLevel { get; }
     }
 }

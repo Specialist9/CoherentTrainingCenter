@@ -1,10 +1,23 @@
-﻿namespace Listeners
+﻿using System;
+using System.Text;
+using System.IO;
+
+namespace Listeners
 {
     public class TextListener : IListener
     {
-        public string WriteToTxtFile(string message)
+        public TextListener(TextListenerConfig txtConfig)
         {
-            throw new NotImplementedException();
+            MinLogLevel = txtConfig.MinLogLevel;
+            FileName = txtConfig.FileName;
+        }
+        public int MinLogLevel { get; set; }
+        public string FileName { get; set; }
+
+        public void WriteToLogFile(string message)
+        {
+            File.WriteAllText("TextListener.txt", message);
+            Console.WriteLine("I'm writing to TextListener.txt");
         }
     }
 }
