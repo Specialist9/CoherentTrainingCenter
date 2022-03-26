@@ -26,8 +26,8 @@ namespace LoggerApp
         public enum LogLevel
         {
             Error = 0,
-            Warning = 1,
-            Debug = 2
+            Information = 1,
+            Warning = 2
         }
 
         public Logger()

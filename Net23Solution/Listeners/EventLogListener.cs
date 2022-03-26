@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Listeners
 {
@@ -18,8 +20,18 @@ namespace Listeners
 
         public void WriteToLogFile(string message)
         {
-            File.WriteAllText("events.txt", message);
-            Console.WriteLine("I'm writing to events.txt");
+            string source = "LoggerApp";
+            string log = "Application";
+            int eventID = 45;
+
+
+            if (!EventLog.SourceExists(source))
+            {
+                EventLog.CreateEventSource(source, log);
+            }
+            EventLog.WriteEntry(source, message, EventLogEntryType.Information, eventID);
+
+            Console.WriteLine("I'm writing to Windows Event Log");
         }
     }
 }
