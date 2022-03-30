@@ -15,6 +15,9 @@ namespace Net24Task
         public int ServerResponseTime { get; set; }
         public string PageUrl { get; set; }
         public string AdminEmail { get; set; }
+
+        public Ping PingSite { get; set; }
+        public PingReply SiteReply { get; set; }
         /*
         public WebSiteData(WebSiteConfig siteConfig)
         {
@@ -27,35 +30,35 @@ namespace Net24Task
 
         public void DisplayPingReply()
         {
-            var hostUrl = PageUrl;
-            Ping ping = new();
-            PingReply result = ping.Send(hostUrl);
-            if(result.Status == IPStatus.Success && result.RoundtripTime < ServerResponseTime)
+            PingSite = new();
+            SiteReply = PingSite.Send(PageUrl);
+            if(SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
             {
-                Console.WriteLine($"Host: {hostUrl} - Status: {result.Status} : Response time: {result.RoundtripTime}");
+                Console.WriteLine($"Host: {PageUrl} - Status: {SiteReply.Status} - Response time: {SiteReply.RoundtripTime}");
 
             }
-            else
+            else if(SiteReply.RoundtripTime > ServerResponseTime)
             {
-                Console.WriteLine($"{hostUrl} - Something went wrong");
+                Console.WriteLine($"Host: {PageUrl} - Status: Unavailable");
             }
         }
 
-        public string LogPingReply()
+        public string ReportWebSiteStatus()
         {
-            var hostUrl = PageUrl;
             StringBuilder temp = new();
-            Ping ping = new();
-            PingReply result = ping.Send(hostUrl);
-            if (result.Status == IPStatus.Success && result.RoundtripTime < ServerResponseTime)
+            PingSite = new();
+            SiteReply = PingSite.Send(PageUrl);
+            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
             {
-                temp.Append($"Host: {hostUrl} - Status: {result.Status} : Response time: {result.RoundtripTime}");
+                temp.Append($"Host: {PageUrl} - Status: {SiteReply.Status} - Response time: {SiteReply.RoundtripTime}");
 
             }
-            else
+            else if(SiteReply.RoundtripTime > ServerResponseTime)
             {
-                temp.Append($"{hostUrl} - Something went wrong");
+                temp.Append($"Host: {PageUrl} - Status: Unavailable");
+                //SendStatusEmail();
             }
+
             return temp.ToString();
         }
         
@@ -65,19 +68,30 @@ namespace Net24Task
             var smtpClient = new SmtpClient("mail.gmx.net")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("sugarush@gmx.de", "Defiant9?") ,
+                Credentials = new NetworkCredential(AdminEmail, "Defiant9?") ,
                 EnableSsl = true,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-
             };
 
-            smtpClient.Send("sugarush@gmx.de", "sugarush@gmx.de", "subject1", "messagebody");
+
+            PingSite = new();
+            SiteReply = PingSite.Send(PageUrl);
+
+            if (SiteReply.Status != IPStatus.Success)
+            {
+                smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - {SiteReply.Status}", "messagebody");
+            }
+            else if(SiteReply.RoundtripTime > ServerResponseTime)
+            {
+                smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
+            }
+
         }
 
         public override string ToString()
         {
-            return $"{PageUrl} - {AdminEmail}";
+            return $"Host: {PageUrl} - Admin email: {AdminEmail}";
         }
     }
 }

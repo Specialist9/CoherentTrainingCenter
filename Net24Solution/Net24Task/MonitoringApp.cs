@@ -25,7 +25,7 @@ namespace Net24Task
             foreach(WebSiteData siteData in SiteData)
             {
                 siteData.DisplayPingReply();
-                MLogger.Info(siteData.LogPingReply());
+                MLogger.Info(siteData.ReportWebSiteStatus());
             }
         }
 
