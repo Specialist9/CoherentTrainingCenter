@@ -17,49 +17,45 @@ class Program
 {
 
 
-    async static Task Main(string[] args)
+    public async static Task Main(string[] args)
     {
-        //await PingUrl();
+        Console.WriteLine("---------STARTING--------------");
 
-        string jsonString = File.ReadAllText("appsettings2.json");
         MonitoringApp mApp1 = new();
+         TimerTask();
+         LoggerTask();
 
-        mApp1.SiteData = JsonConvert.DeserializeObject<List<WebSiteData>>(jsonString);
+        //mApp1.ReportAllWebsiteStatus();
 
-        foreach (WebSiteData item in mApp1.SiteData)
+        async Task TimerTask()
         {
-            Console.WriteLine(item);
-            item.SendStatusEmail();
+            mApp1.StartTimers();
 
         }
-        Console.WriteLine("-----------------------");
-        mApp1.DisplayPingStatus();
-        
-
-        Console.WriteLine("-----------------------");
-        /*
-        Logger log = LogManager.GetCurrentClassLogger();
-        log.Debug("This is a debug message");
-        log.Error(new Exception(), "This is an error message");
-        log.Fatal("This is a fatal message");
-        */
-
-        //WebSiteData yahooSite = new();
-        //yahooSite.PingUrl();
-
-
-        /*
-        async Task PingUrl()
+        async Task LoggerTask()
         {
-            var hostUrl = "www.yahoo.com";
-            Ping ping = new();
-            PingReply result = await ping.SendPingAsync(hostUrl);
-            var res =  result.RoundtripTime;
-            Console.WriteLine(res);
-        }
-        */
+            mApp1.StartLogger();
 
-        //Console.ReadLine();
+        }
+
+        Console.ReadLine();
+
+        //mApp1.WebSiteWatcher.Changed += delegate { Console.WriteLine("WRITE SOME STUFF"); };
+        //mApp1.WebSiteWatcher.Changed += (sender, e) => Console.WriteLine("Lambda expression for eventhandler");
+
+
+        Console.WriteLine("---------AFTER CHANGING FILE--------------");
+
+        mApp1 = new();
+        //mApp1.ReportAllWebsiteStatus();
+        mApp1.StartTimers();
+        //mApp1.StartLogger();
+
+
+
+        Console.ReadLine();
+        Console.WriteLine("----------END-------------");
+
 
     }
 
