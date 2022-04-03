@@ -11,17 +11,16 @@ using NLog;
 
 namespace Net24Task
 {
-    public class MonitoringAppC
+    public class MonitoringAppConfBuild
     {
         public List<WebSiteData>? SiteData { get; set; }
 
         public string WebSiteSettingsFile { get; set; }
         public string WebSiteSettingsDirectory { get; set; }
         public FileSystemWatcher WebSiteWatcher { get; set; }
-        //public bool IsStopped { get; set; }
 
 
-        public MonitoringAppC()
+        public MonitoringAppConfBuild()
         {
             
             var cfg = GetAppssetingsConfig();
@@ -36,8 +35,7 @@ namespace Net24Task
             SiteData.Add(googleCheck);
             SiteData.Add(microsoftCheck);
             
-
-            /*
+            
             WebSiteSettingsFile = "appsettings2.json";
             string jsonString = File.ReadAllText(WebSiteSettingsFile);
             SiteData = JsonConvert.DeserializeObject<List<WebSiteData>>(jsonString);
@@ -51,19 +49,14 @@ namespace Net24Task
             WebSiteWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess;
 
             WebSiteWatcher.Changed += OnChanged;
-            */
 
         }
 
-
-
-    IConfigurationRoot GetAppssetingsConfig()
+        IConfigurationRoot GetAppssetingsConfig()
         {
-            
             var builder = new ConfigurationBuilder()
                            .SetBasePath(Directory.GetCurrentDirectory())
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            //.AddEnvironmentVariables();
 
             IConfigurationRoot configuration = builder.Build();
             
