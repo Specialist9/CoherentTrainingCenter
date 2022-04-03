@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace Net22Task
 {
-    public class XMLToObjectDeserializer
+    public class XmlConfigReader
     {
         public T Deserialize<T>(string input) where T : class
         {
@@ -20,15 +20,5 @@ namespace Net22Task
             }
         }
 
-        public string Serialize<T>(T ObjectToSerialize)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
-
-            using (StringWriter textWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(textWriter, ObjectToSerialize);
-                return textWriter.ToString();
-            }
-        }
     }
 }

@@ -10,12 +10,11 @@ using System.IO;
 
 namespace Net22Task
 {
-    public class ConfigToJSONSerializer
+    public class ConfigToJsonWriter
     {
-        string strJson { get; set; }
         Config ConfigToSerialize { get; set; }
 
-        public ConfigToJSONSerializer(Config config)
+        public ConfigToJsonWriter(Config config)
         {
             ConfigToSerialize = config;
         }
@@ -47,7 +46,6 @@ namespace Net22Task
                 string jsonString = JsonSerializer.Serialize(login);
 
                 File.WriteAllText(pathAndFileName, jsonString);
-                //Console.WriteLine(File.ReadAllText(pathAndFileName));
                 
             }
 

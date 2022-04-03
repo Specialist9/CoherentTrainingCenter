@@ -8,33 +8,29 @@ using System.Xml.XPath;
 using System.Text.Json;
 using Net22Task;
 
-//Check XML file for valid logins and display result
-XmlLoginValidator configVal1 = new("XMLConfig.xml");
-Console.WriteLine(configVal1.DisplayLoginValidity());
 
-//Mark XML file Login elements with isvalid attribute according to validity
-InvalidLoginMarker marker1 = new("XMLConfig.xml");
-marker1.MarkInvalidLogins();
+//Deserialize XML file into manually created classes
 
-//Deserialize Marked XML file to objects
-XMLToObjectDeserializer ser = new XMLToObjectDeserializer();
+XmlConfigReader ser = new XmlConfigReader();
 string path = string.Empty;
 string xmlInputData = string.Empty;
 
-path = Directory.GetCurrentDirectory() + @"\XMLConfigMarked.xml";
+path = Directory.GetCurrentDirectory() + @"\XMLConfig.xml";
 xmlInputData = File.ReadAllText(path);
 
-// Create classes from Marked XML into manually created Config.cs
-Config config = ser.Deserialize<Config>(xmlInputData);
+//Check XML file for valid logins and display result
+Config configX = ser.Deserialize<Config>(xmlInputData);
+
+Console.WriteLine(configX.DisplayLoginValidity());
 
 //Display all logins
-Console.WriteLine(config.ToString());
+Console.WriteLine(configX.ToString());
 
 //Display invalid logins
-Console.WriteLine(config.DisplayInvalidLogins().ToString());
+Console.WriteLine(configX.DisplayInvalidLogins2().ToString());
 
 //Create JSON Serializer and serialize created classes into JSON file
-ConfigToJSONSerializer loginsToJson = new(config);
+ConfigToJsonWriter loginsToJson = new(configX);
 loginsToJson.SerializeConfig();
 
 

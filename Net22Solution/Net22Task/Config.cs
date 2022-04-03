@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Xml.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel;
@@ -12,81 +13,6 @@ using Newtonsoft.Json;
 
 namespace Net22Task
 {
-
-	[XmlRoot(ElementName = "window")]
-	public class Window
-	{
-
-		[XmlElement(ElementName = "top")]
-		public int? Top { get; set; }
-
-		[XmlElement(ElementName = "left")]
-		public int? Left { get; set; }
-
-
-		[XmlElement(ElementName = "width")]
-		public int? Width { get; set; }
-
-		[XmlElement(ElementName = "height")]
-		public int? Height { get; set; }
-
-		[XmlAttribute(AttributeName = "title")]
-		public string Title { get; set; }
-
-		public bool MainWindowHasAllElements()
-        {
-			return Top > 0 && Left > 0 && Width > 0 && Height > 0 && Title == "main";
-        }
-
-		
-		[XmlText]
-		public string Text { get; set; }
-	}
-
-	[XmlRoot(ElementName = "login")]
-	public class Login
-	{
-
-		[XmlElement(ElementName = "window")]
-		public List<Window> Window { get; set; }
-
-		[XmlAttribute(AttributeName = "name")]
-		public string Name { get; set; }
-
-		[XmlAttribute(AttributeName = "isvalid")]
-		public bool Isvalid { get; set; }
-
-		public bool LoginHasOnlyOneMainWindow()
-        {
-			return Window.Where(x => x.Title == "main").Count() == 1;
-        }
-
-		public bool LoginHasNoMainWindow()
-        {
-			return Window.Where(x => x.Title == "main").Count() == 0;
-		}
-
-		public bool LoginIsValid()
-        {
-			return Isvalid;
-		}
-		
-
-        public override string ToString()
-        {
-			StringBuilder sb = new();
-			sb.AppendLine(Name);
-			foreach (var window in Window)
-			{
-				sb.Append($"{window.Title.ToString()} ({window.Top}, {window.Left}, {window.Width}, {window.Height}) \n");
-			}
-			return sb.ToString();
-        }
-
-
-        [XmlText]
-		public string Text { get; set; }
-	}
 
 	[XmlRoot(ElementName = "config")]
 	public class Config
@@ -114,14 +40,15 @@ namespace Net22Task
 			return sb.ToString();
         }
 
-		public string DisplayInvalidLogins()
+
+		public string DisplayInvalidLogins2()
 		{
 			StringBuilder sb = new();
 			sb.AppendLine("Invalid Logins");
 			foreach (var login in Login)
 			{
-                if (!login.LoginIsValid())
-                {
+				if (login.LoginIsInvalid())
+				{
 					sb.AppendLine($"Login: {login.Name}");
 
 					foreach (var window in login.Window)
@@ -137,5 +64,51 @@ namespace Net22Task
 			return sb.ToString();
 		}
 
-	}
+        public string DisplayLoginValidity()
+        {
+            string fileName = "XMLConfig.xml";
+            
+            var xmlDoc = XDocument.Load(Directory.GetCurrentDirectory() + $@"\{fileName}");
+
+            StringBuilder sb = new();
+
+            foreach (var login in xmlDoc.Descendants("login"))
+            {
+                var numberOfMainWindows = (from window in login.Descendants("window")
+                                           where (window.Attribute("title").Value == "main")
+                                           select window).Count();
+
+                if (numberOfMainWindows == 1)
+                {
+                    var allElementsSet = (from window in login.Descendants("window")
+                                          where (window.Attribute("title").Value == "main")
+                                          where (window.Element("top") != null &&
+                                                  window.Element("left") != null &&
+                                                  window.Element("width") != null &&
+                                                  window.Element("height") != null)
+                                          select window).Any();
+
+
+                    if (allElementsSet == true)
+                    {
+                        sb.AppendLine($"Login: {login.Attribute("name").Value} is valid");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"Login: {login.Attribute("name").Value} is NOT valid");
+                    }
+                }
+                else if (numberOfMainWindows == 0)
+                {
+                    sb.AppendLine($"Login: {login.Attribute("name").Value} is valid");
+                }
+                else
+                {
+                    sb.AppendLine($"Login: {login.Attribute("name").Value} is NOT valid");
+                }
+            }
+            return sb.ToString();
+        }
+
+    }
 }
