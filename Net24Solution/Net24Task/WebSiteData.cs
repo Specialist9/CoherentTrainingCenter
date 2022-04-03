@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.NetworkInformation;
 using System.Net.Mail;
 using System.Net;
+using System.Dynamic;
 using System.Timers;
 
 namespace Net24Task
@@ -20,6 +21,7 @@ namespace Net24Task
         public Ping PingSite { get; set; }
         public PingReply SiteReply { get; set; }
 
+
         public void StartPingTimer()
         {
             System.Timers.Timer pingTimer = new();
@@ -27,13 +29,15 @@ namespace Net24Task
             pingTimer.Elapsed += ElapsedTimerEventHandler;
             pingTimer.Start();
         }
-
+        
+        /*
         public PingReply PingWebsite()
         {
             PingSite = new();
             SiteReply = PingSite.Send(PageUrl);
             return SiteReply;
         }
+        */
 
         async Task<PingReply> GetPingReplyAsync()
         {
@@ -45,13 +49,15 @@ namespace Net24Task
 
         void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
-            PingWebsite();
+            //PingWebsite();
+            GetPingReplyAsync();
             DisplayPingResult();
-            LogWebSiteStatus();
+            //LogWebSiteStatus();
+            LogWebSiteStatus2();
             SendEmailAsync();
         }
 
-
+        /*
         public void DisplayPingReply()
         {
             System.Timers.Timer pingTimer = new();
@@ -80,6 +86,7 @@ namespace Net24Task
             }
 
         }
+        */
 
         public async Task SendEmailAsync()
         {
@@ -98,8 +105,6 @@ namespace Net24Task
             {
                 smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
             }
-
-
         }
 
 
@@ -124,8 +129,34 @@ namespace Net24Task
             return temp.ToString();
         }
 
-        
+        public async Task LogWebSiteStatus2()
+        {
+            StringBuilder temp = new();
 
+            PingReply pingReply1 = await GetPingReplyAsync();
+
+            if (pingReply1.Status == IPStatus.Success && pingReply1.RoundtripTime < ServerResponseTime)
+            {
+                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} - Status: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
+
+            }
+            else if (pingReply1.Status != IPStatus.Success || pingReply1.RoundtripTime > ServerResponseTime)
+            {
+                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: Unavailable");
+            }
+            /*
+            using (var fileStream = new FileStream($"{DateTime.UtcNow.ToString("yyyy-MM-dd")} SiteResponseLog.txt", FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                streamWriter.WriteLine(temp.ToString());
+            }
+            */
+            File.AppendAllText($"{DateTime.UtcNow.ToString("yyyy-MM-dd")} SiteResponseLog.txt", temp.ToString());
+
+            //return temp.ToString();
+        }
+
+        /*
         public void SendStatusEmail()
         {
             var smtpClient = new SmtpClient("mail.gmx.net")
@@ -139,27 +170,26 @@ namespace Net24Task
             smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
 
         }
+        
 
         public override string ToString()
         {
             return $"Host: {PageUrl} - Admin email: {AdminEmail}";
         }
-
-        void DisplayPingResult()
+        */
+        public async Task DisplayPingResult()
         {
-            //PingSite = new();
-            //SiteReply = PingSite.Send(PageUrl);
-            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
+            PingReply pingReplyAsync2 = await GetPingReplyAsync();
+
+            if (pingReplyAsync2.Status == IPStatus.Success && pingReplyAsync2.RoundtripTime < ServerResponseTime)
             {
-                Console.WriteLine($"Host: {PageUrl} - Status: {SiteReply.Status} - Response time: {SiteReply.RoundtripTime}");
+                Console.WriteLine($"Host: {PageUrl} \tStatus: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
 
             }
-            else if (SiteReply.RoundtripTime > ServerResponseTime)
+            else if (pingReplyAsync2.RoundtripTime > ServerResponseTime)
             {
-                Console.WriteLine($"Host: {PageUrl} - Status: Unavailable");
+                Console.WriteLine($"Host: {PageUrl} \tStatus: Unavailable");
             }
         }
-
-
     }
 }

@@ -7,6 +7,7 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using System.Text.Json;
 using Newtonsoft.Json;
 using NLog;
@@ -15,47 +16,25 @@ using Net24Task;
 
 class Program
 {
+    static Mutex mutex = new Mutex(false, "MyApp");
 
-
-    public async static Task Main(string[] args)
+    public static void Main(string[] args)
     {
-        Console.WriteLine("---------STARTING--------------");
 
-        MonitoringApp mApp1 = new();
-         TimerTask();
-         LoggerTask();
-
-        //mApp1.ReportAllWebsiteStatus();
-
-        async Task TimerTask()
+        if (!mutex.WaitOne(TimeSpan.FromSeconds(3), false))
         {
+            Console.WriteLine("Another instance of the app is running. Bye!");
+            return;
+        }
+
+        try
+        {
+            Console.WriteLine("Running. Press Enter to exit");
+            MonitoringApp mApp1 = new();
             mApp1.StartTimers();
-
+            Console.ReadLine();
         }
-        async Task LoggerTask()
-        {
-            mApp1.StartLogger();
-
-        }
-
-        Console.ReadLine();
-
-        //mApp1.WebSiteWatcher.Changed += delegate { Console.WriteLine("WRITE SOME STUFF"); };
-        //mApp1.WebSiteWatcher.Changed += (sender, e) => Console.WriteLine("Lambda expression for eventhandler");
-
-
-        Console.WriteLine("---------AFTER CHANGING FILE--------------");
-
-        mApp1 = new();
-        //mApp1.ReportAllWebsiteStatus();
-        mApp1.StartTimers();
-        //mApp1.StartLogger();
-
-
-
-        Console.ReadLine();
-        Console.WriteLine("----------END-------------");
-
+        finally { mutex.ReleaseMutex(); }
 
     }
 
