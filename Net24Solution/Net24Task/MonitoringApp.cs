@@ -25,8 +25,7 @@ namespace Net24Task
             string jsonString = File.ReadAllText(WebSiteSettingsFile);
 
             SiteData = JsonConvert.DeserializeObject<List<WebSiteData>>(jsonString);
-            
-            //WebSiteSettingsDirectory = Directory.GetCurrentDirectory();
+
             WebSiteWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
             WebSiteWatcher.Filter = WebSiteSettingsFile;
             WebSiteWatcher.EnableRaisingEvents = true;

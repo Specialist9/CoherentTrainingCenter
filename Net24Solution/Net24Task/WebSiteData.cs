@@ -30,14 +30,6 @@ namespace Net24Task
             pingTimer.Start();
         }
         
-        /*
-        public PingReply PingWebsite()
-        {
-            PingSite = new();
-            SiteReply = PingSite.Send(PageUrl);
-            return SiteReply;
-        }
-        */
 
         async Task<PingReply> GetPingReplyAsync()
         {
@@ -49,44 +41,13 @@ namespace Net24Task
 
         void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
-            //PingWebsite();
             GetPingReplyAsync();
             DisplayPingResult();
-            //LogWebSiteStatus();
-            LogWebSiteStatus2();
+            LogWebSiteStatus();
             SendEmailAsync();
         }
 
-        /*
-        public void DisplayPingReply()
-        {
-            System.Timers.Timer pingTimer = new();
-            pingTimer.Interval = CheckInterval;
-            pingTimer.Elapsed += ElapsedTimerEventHandler;
-            pingTimer.Start();
-            
-            void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
-            {
-                DisplayPingResult();
-            }
 
-            void DisplayPingResult()
-            {
-                PingSite = new();
-                SiteReply = PingSite.Send(PageUrl);
-                if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
-                {
-                    Console.WriteLine($"Host: {PageUrl} - Status: {SiteReply.Status} - Response time: {SiteReply.RoundtripTime}");
-
-                }
-                else if (SiteReply.RoundtripTime > ServerResponseTime)
-                {
-                    Console.WriteLine($"Host: {PageUrl} - Status: Unavailable");
-                }
-            }
-
-        }
-        */
 
         public async Task SendEmailAsync()
         {
@@ -108,28 +69,7 @@ namespace Net24Task
         }
 
 
-        public async Task<string> LogWebSiteStatus()
-        {
-            StringBuilder temp = new();
-            //PingSite = new();
-
-            //SiteReply = PingSite.Send(PageUrl);
-            PingReply pingReplyAsync2 = await GetPingReplyAsync();
-
-            if (pingReplyAsync2.Status == IPStatus.Success && pingReplyAsync2.RoundtripTime < ServerResponseTime)
-            {
-                temp.Append($"Host: {PageUrl} - Status: {SiteReply.Status} - Response time: {SiteReply.RoundtripTime}");
-
-            }
-            else if(pingReplyAsync2.Status != IPStatus.Success || pingReplyAsync2.RoundtripTime > ServerResponseTime)
-            {
-                temp.Append($"Host: {PageUrl} - Status: Unavailable");
-            }
-
-            return temp.ToString();
-        }
-
-        public async Task LogWebSiteStatus2()
+        public async Task LogWebSiteStatus()
         {
             StringBuilder temp = new();
 
@@ -144,39 +84,11 @@ namespace Net24Task
             {
                 temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: Unavailable");
             }
-            /*
-            using (var fileStream = new FileStream($"{DateTime.UtcNow.ToString("yyyy-MM-dd")} SiteResponseLog.txt", FileMode.Create, FileAccess.Write, FileShare.Read))
-            using (var streamWriter = new StreamWriter(fileStream))
-            {
-                streamWriter.WriteLine(temp.ToString());
-            }
-            */
+
             File.AppendAllText($"{DateTime.UtcNow.ToString("yyyy-MM-dd")} SiteResponseLog.txt", temp.ToString());
 
-            //return temp.ToString();
         }
 
-        /*
-        public void SendStatusEmail()
-        {
-            var smtpClient = new SmtpClient("mail.gmx.net")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(AdminEmail, "Defiant9?") ,
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-            };
-            smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
-
-        }
-        
-
-        public override string ToString()
-        {
-            return $"Host: {PageUrl} - Admin email: {AdminEmail}";
-        }
-        */
         public async Task DisplayPingResult()
         {
             PingReply pingReplyAsync2 = await GetPingReplyAsync();
