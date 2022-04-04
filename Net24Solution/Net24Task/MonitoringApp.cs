@@ -25,14 +25,14 @@ namespace Net24Task
             string jsonString = File.ReadAllText(WebSiteSettingsFile);
 
             SiteData = JsonConvert.DeserializeObject<List<WebSiteData>>(jsonString);
-
+            /*
             WebSiteWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
             WebSiteWatcher.Filter = WebSiteSettingsFile;
             WebSiteWatcher.EnableRaisingEvents = true;
             WebSiteWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess;
 
             WebSiteWatcher.Changed += OnChanged;
-            
+            */
         }
 
        
@@ -55,6 +55,8 @@ namespace Net24Task
                 webSiteData.StartPingTimer();
             }
         }
+
+
 
     }
 }
