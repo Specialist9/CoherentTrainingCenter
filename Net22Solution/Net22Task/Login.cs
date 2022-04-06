@@ -32,7 +32,7 @@ namespace Net22Task
 			return Window.Where(x => x.Title == "main").Count() == 0;
 		}
 
-		public bool LoginIsInvalid()
+        public bool LoginIsInvalid()
         {
 			if (LoginHasOnlyOneMainWindow())
             {
@@ -41,7 +41,7 @@ namespace Net22Task
 				if (temp.MainWindowHasAllElements() == true)
                 {
 					return false;
-				}
+                }
             }
 			else if (LoginHasNoMainWindow())
             {
