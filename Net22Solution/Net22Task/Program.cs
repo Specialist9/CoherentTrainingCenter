@@ -21,16 +21,16 @@ xmlInputData = File.ReadAllText(path);
 //Check XML file for valid logins and display result
 Config configX = ser.Deserialize<Config>(xmlInputData);
 
-Console.WriteLine(configX.DisplayLoginValidity());
+//Console.WriteLine(configX.DisplayLoginValidity());
 
 //Display all logins
 Console.WriteLine(configX.ToString());
 
 //Display invalid logins
-Console.WriteLine(configX.DisplayInvalidLogins2().ToString());
+Console.WriteLine(configX.DisplayInvalidLogins().ToString());
 
 //Create JSON Serializer and serialize created classes into JSON file
-ConfigToJsonWriter loginsToJson = new(configX);
+JsonConfigWriter loginsToJson = new(configX);
 loginsToJson.SerializeConfig();
 
 

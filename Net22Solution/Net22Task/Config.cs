@@ -19,13 +19,13 @@ namespace Net22Task
 	{
 
 		[XmlElement(ElementName = "login")]
-		public List<Login> Login { get; set; }
+		public List<Login> Logins { get; set; }
 
         public override string ToString()
         {
             StringBuilder sb = new ();
 			sb.AppendLine("All logins");
-			foreach(var login in Login)
+			foreach(var login in Logins)
             {
 				sb.AppendLine($"Login: {login.Name}");
 
@@ -41,11 +41,11 @@ namespace Net22Task
         }
 
 
-		public string DisplayInvalidLogins2()
+		public string DisplayInvalidLogins()
 		{
 			StringBuilder sb = new();
 			sb.AppendLine("Invalid Logins");
-			foreach (var login in Login)
+			foreach (var login in Logins)
 			{
 				if (login.LoginIsInvalid())
 				{
@@ -63,52 +63,6 @@ namespace Net22Task
 			}
 			return sb.ToString();
 		}
-
-        public string DisplayLoginValidity()
-        {
-            string fileName = "XMLConfig.xml";
-            
-            var xmlDoc = XDocument.Load(Directory.GetCurrentDirectory() + $@"\{fileName}");
-
-            StringBuilder sb = new();
-
-            foreach (var login in xmlDoc.Descendants("login"))
-            {
-                var numberOfMainWindows = (from window in login.Descendants("window")
-                                           where (window.Attribute("title").Value == "main")
-                                           select window).Count();
-
-                if (numberOfMainWindows == 1)
-                {
-                    var allElementsSet = (from window in login.Descendants("window")
-                                          where (window.Attribute("title").Value == "main")
-                                          where (window.Element("top") != null &&
-                                                  window.Element("left") != null &&
-                                                  window.Element("width") != null &&
-                                                  window.Element("height") != null)
-                                          select window).Any();
-
-
-                    if (allElementsSet == true)
-                    {
-                        sb.AppendLine($"Login: {login.Attribute("name").Value} is valid");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"Login: {login.Attribute("name").Value} is NOT valid");
-                    }
-                }
-                else if (numberOfMainWindows == 0)
-                {
-                    sb.AppendLine($"Login: {login.Attribute("name").Value} is valid");
-                }
-                else
-                {
-                    sb.AppendLine($"Login: {login.Attribute("name").Value} is NOT valid");
-                }
-            }
-            return sb.ToString();
-        }
 
     }
 }

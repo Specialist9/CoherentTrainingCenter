@@ -10,11 +10,11 @@ using System.IO;
 
 namespace Net22Task
 {
-    public class ConfigToJsonWriter
+    public class JsonConfigWriter
     {
         Config ConfigToSerialize { get; set; }
 
-        public ConfigToJsonWriter(Config config)
+        public JsonConfigWriter(Config config)
         {
             ConfigToSerialize = config;
         }
@@ -24,7 +24,7 @@ namespace Net22Task
             string pathForJSON = Directory.GetCurrentDirectory() + @"\Config";
             Directory.CreateDirectory(pathForJSON);
 
-            foreach(Login login in ConfigToSerialize.Login)
+            foreach(Login login in ConfigToSerialize.Logins)
             {
                 foreach(var window in login.Window)
                 {
@@ -35,7 +35,7 @@ namespace Net22Task
                 }
             }
 
-            foreach (Login login in ConfigToSerialize.Login)
+            foreach (Login login in ConfigToSerialize.Logins)
             {
                 string subDir = Path.Combine(pathForJSON, login.Name);
                 Directory.CreateDirectory(subDir);
