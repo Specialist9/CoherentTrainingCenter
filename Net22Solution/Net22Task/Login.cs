@@ -43,6 +43,7 @@ namespace Net22Task
 					return false;
                 }
             }
+
 			else if (LoginHasNoMainWindow())
             {
 				return false;
