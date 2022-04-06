@@ -34,25 +34,25 @@ namespace Net22Task
 
         public bool LoginIsInvalid()
         {
-			if (LoginHasOnlyOneMainWindow())
+            if (LoginHasOnlyOneMainWindow())
             {
-				Window temp = Window.Where(x => x.Title == "main").FirstOrDefault();
+                Window temp = Window.Where(x => x.Title == "main").FirstOrDefault();
 
-				if (temp.MainWindowHasAllElements() == true)
+                if (temp.MainWindowHasAllElements() == true)
                 {
-					return false;
+                    return false;
                 }
             }
 
-			else if (LoginHasNoMainWindow())
+            else if (LoginHasNoMainWindow())
             {
-				return false;
+                return false;
             }
-			return true;
+            return true;
         }
 
 
-		public override string ToString()
+        public override string ToString()
 		{
 			StringBuilder sb = new();
 			sb.AppendLine(Name);
