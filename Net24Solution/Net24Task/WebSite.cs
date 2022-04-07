@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace Net24Task
 {
-    public class WebSiteData
+    public class WebSite
     {
         public int CheckInterval { get; set; }
         public int ServerResponseTime { get; set; }
@@ -22,6 +22,14 @@ namespace Net24Task
         public PingReply SiteReply { get; set; }
 
 
+        public WebSite(WebSiteConfig config)
+        {
+            CheckInterval = config.CheckInterval;
+            ServerResponseTime = config.ServerResponseTime;
+            PageUrl = config.PageUrl;
+            AdminEmail = config.AdminEmail;
+        }
+
         public void StartPingTimer()
         {
             System.Timers.Timer pingTimer = new();
@@ -30,7 +38,6 @@ namespace Net24Task
             pingTimer.Start();
         }
         
-
         async Task<PingReply> GetPingReplyAsync()
         {
             PingSite = new();
@@ -41,11 +48,11 @@ namespace Net24Task
 
         async void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
-            GetPingReplyAsync();
+            await GetPingReplyAsync();
+            
             DisplayPingResult();
             LogWebSiteStatus();
             await SendEmailAsync();
-            await GetPingReplyAsync();
         }
 
 
@@ -97,6 +104,13 @@ namespace Net24Task
             {
                 Console.WriteLine($"Host: {PageUrl} \tStatus: Unavailable");
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder temp = new();
+            temp.AppendLine($"Host: {PageUrl} \tInterval s: {CheckInterval/1000} \tResponse time: {AdminEmail}");
+            return temp.ToString();
         }
     }
 }

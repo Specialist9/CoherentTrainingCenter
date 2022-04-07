@@ -19,15 +19,17 @@ class Program
     static Mutex mutex = new Mutex(false, "MyApp");
 
 
-    public static void Main(string[] args)
+    async static Task Main(string[] args)
     {
         CancellationTokenSource cancelT1 = new();
         CancellationToken token1 = cancelT1.Token;
 
+        //SiteMonitoringApp siteMonitor1 = new();
+
         Task task1 = new Task(() =>
         {
-            MonitoringApp mApp1 = new();
-            mApp1.StartTimers();
+            SiteMonitoringApp siteMonitor1 = new();
+            siteMonitor1.StartTimers();
             while (true)
             {
                 if (token1.IsCancellationRequested)
@@ -40,7 +42,7 @@ class Program
 
 
         FileSystemWatcher WebSiteWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
-        WebSiteWatcher.Filter = "appsettings2.json";
+        WebSiteWatcher.Filter = "appsettings.json";
         WebSiteWatcher.EnableRaisingEvents = true;
         WebSiteWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.LastAccess;
 
@@ -50,7 +52,7 @@ class Program
         {
             Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
             cancelT1.Cancel();
-   
+ 
         }
 
 
@@ -65,10 +67,12 @@ class Program
             Console.WriteLine("Running. Press Enter to exit");
             
             task1.Start();
-            Console.ReadLine();
-            cancelT1.Cancel();
+            //Console.ReadLine();
+            //cancelT1.Cancel();
             task1.Wait();
             
+
+            Console.ReadLine();
 
         }
         catch (AggregateException ae)
