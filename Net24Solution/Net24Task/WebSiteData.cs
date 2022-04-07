@@ -39,20 +39,19 @@ namespace Net24Task
             return SiteReply;
         }
 
-        void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
+        async void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
             GetPingReplyAsync();
             DisplayPingResult();
             LogWebSiteStatus();
-            SendEmailAsync();
+            await SendEmailAsync();
+            await GetPingReplyAsync();
         }
 
 
 
         public async Task SendEmailAsync()
         {
-            PingReply pingReplyAsync = await GetPingReplyAsync();
-
             var smtpClient = new SmtpClient("mail.gmx.net")
             {
                 Port = 587,
@@ -62,7 +61,7 @@ namespace Net24Task
                 DeliveryMethod = SmtpDeliveryMethod.Network,
             };
 
-            if (pingReplyAsync.Status != IPStatus.Success || pingReplyAsync.RoundtripTime > ServerResponseTime)
+            if (SiteReply.Status != IPStatus.Success || SiteReply.RoundtripTime > ServerResponseTime)
             {
                 smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
             }
@@ -73,14 +72,12 @@ namespace Net24Task
         {
             StringBuilder temp = new();
 
-            PingReply pingReply1 = await GetPingReplyAsync();
-
-            if (pingReply1.Status == IPStatus.Success && pingReply1.RoundtripTime < ServerResponseTime)
+            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
             {
-                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} - Status: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
+                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
 
             }
-            else if (pingReply1.Status != IPStatus.Success || pingReply1.RoundtripTime > ServerResponseTime)
+            else if (SiteReply.Status != IPStatus.Success || SiteReply.RoundtripTime > ServerResponseTime)
             {
                 temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: Unavailable");
             }
@@ -91,14 +88,12 @@ namespace Net24Task
 
         public async Task DisplayPingResult()
         {
-            PingReply pingReplyAsync2 = await GetPingReplyAsync();
-
-            if (pingReplyAsync2.Status == IPStatus.Success && pingReplyAsync2.RoundtripTime < ServerResponseTime)
+            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
             {
                 Console.WriteLine($"Host: {PageUrl} \tStatus: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
 
             }
-            else if (pingReplyAsync2.RoundtripTime > ServerResponseTime)
+            else if (SiteReply.RoundtripTime > ServerResponseTime)
             {
                 Console.WriteLine($"Host: {PageUrl} \tStatus: Unavailable");
             }
