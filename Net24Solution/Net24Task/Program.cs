@@ -24,8 +24,6 @@ class Program
         CancellationTokenSource cancelT1 = new();
         CancellationToken token1 = cancelT1.Token;
 
-        //SiteMonitoringApp siteMonitor1 = new();
-
         Task task1 = new Task(() =>
         {
             SiteMonitoringApp siteMonitor1 = new();
@@ -72,7 +70,7 @@ class Program
             task1.Wait();
             
 
-            Console.ReadLine();
+            //Console.ReadLine();
 
         }
         catch (AggregateException ae)
