@@ -54,6 +54,7 @@ namespace SensorApp
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void RaisePropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler temp = PropertyChanged;

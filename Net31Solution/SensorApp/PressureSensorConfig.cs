@@ -12,6 +12,7 @@ namespace SensorApp
         public int MeasurementInterval { get; set; }
         public string SensorType { get; set; }
         public ISensorConfig.Mode SensorMode { get; set; }
+
         /*public enum Mode
         {
             Idle,

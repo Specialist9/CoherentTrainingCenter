@@ -31,18 +31,20 @@ namespace SensorApp
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            this.myGrid.ItemsSource = SensorsFactory.CreateSensors(3);
-            
+            //this.myGrid.ItemsSource = SensorsFactory.CreateSensors(3);
+            this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
+
             ConfigReader reader = new ConfigReader();
             //reader.BuildXmlConfig();
+            /*
             reader.BuildJsonConfig();
             Sensor pSensor = new(reader.PConfig);
             Sensor tSensor = new(reader.TConfig);
             Sensor mSensor = new(reader.MConfig);
+            */
 
 
-
-            int i = 756;
+            //int i = 756;
         }
 
         private void ChangeSensorName(object sender, RoutedEventArgs e)
