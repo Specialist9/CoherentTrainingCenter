@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration.Xml;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +27,28 @@ namespace SensorApp
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            this.myGrid.ItemsSource = SensorsFactory.CreateSensors(3);
+            
+            ConfigReader reader = new ConfigReader();
+            //reader.BuildXmlConfig();
+            reader.BuildJsonConfig();
+            Sensor pSensor = new(reader.PConfig);
+            Sensor tSensor = new(reader.TConfig);
+            Sensor mSensor = new(reader.MConfig);
+
+
+
+            int i = 756;
+        }
+
+        private void ChangeSensorName(object sender, RoutedEventArgs e)
+        {
+            var sensor = (e.Source as Button).DataContext as Sensor;
+            sensor.Name = Guid.NewGuid().ToString();
         }
     }
 }
