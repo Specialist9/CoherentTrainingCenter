@@ -9,9 +9,24 @@ namespace SensorApp
 {
     internal class Sensor : INotifyPropertyChanged
     {
-        public int MeasuredValue { get; }
-
+        private int _measuredValue;
+        private Mode _sensorMode;
         private string _name;
+
+        public int MeasuredValue
+        {
+            get
+            {
+                return _measuredValue;
+            }
+            set
+            {
+                _measuredValue = value;
+                RaisePropertyChanged(nameof(MeasuredValue));
+            }
+        }
+
+        
         public string Name
         {
             get 
@@ -28,7 +43,18 @@ namespace SensorApp
         public Guid Id { get; set; }
         public int MeasurementInterval { get; set; }
         public string SensorType { get; set; }
-        public Mode SensorMode { get; set; }
+        public Mode SensorMode
+        {
+            get
+            {
+                return _sensorMode;
+            }
+            set
+            {
+                _sensorMode = value;
+                RaisePropertyChanged(nameof(SensorMode));
+            }
+        }
 
         public enum Mode
         {
@@ -53,6 +79,7 @@ namespace SensorApp
             SensorMode = (Mode)config.SensorMode;
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void RaisePropertyChanged(string propertyName)
@@ -62,6 +89,13 @@ namespace SensorApp
             {
                 temp(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void ChangeSensorMode()
+        {
+            if (SensorMode == Mode.Calibration) SensorMode = Mode.Working;
+            else if (SensorMode == Mode.Working) SensorMode = Mode.Idle;
+            else if(SensorMode == Mode.Idle) SensorMode = Mode.Calibration;
         }
 
     }

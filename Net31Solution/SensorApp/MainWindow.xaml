@@ -8,12 +8,27 @@
         Title="MainWindow" Height="450" Width="800" Initialized="Window_Initialized" >
     <DataGrid x:Name="myGrid" Margin="0,0,23,57" AutoGenerateColumns="False" >
         <DataGrid.Columns>
-            <DataGridTextColumn Binding="{Binding SensorType}" Header="Sensor Name" />
-            <DataGridTextColumn Binding="{Binding MeasuredValue}" Header="Sensor Value"/>
+            <DataGridTextColumn Binding="{Binding SensorType}" Header="Sensor Type" />
+            <DataGridTextColumn Binding="{Binding MeasuredValue}" Header="Measured Value"/>
+            <DataGridTextColumn Binding="{Binding SensorMode}" Header="Sensor Mode"/>
             <DataGridTemplateColumn>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Button Click="ChangeSensorName">Change sensor name</Button>
+                        <Button Click="ChangeSensorName">Change value</Button>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Click="ChangeSensorMode">Change sensor mode</Button>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Click="DeleteSensor">Delete sensor</Button>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
