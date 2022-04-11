@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace SensorApp
 {
-    public class ConfigReader
+    public static class ConfigReader
     {
-        public PressureSensorConfig PConfig { get; set; }
-        public TemperatureSensorConfig TConfig { get; set; }
-        public MagneticSensorConfig MConfig { get; set; }
+        public static PressureSensorConfig PConfig { get; set; }
+        public static TemperatureSensorConfig TConfig { get; set; }
+        public static MagneticSensorConfig MConfig { get; set; }
 
-        public void BuildJsonConfig()
+        public static void BuildJsonConfig()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("sensorsettings.json");
             var cfg = builder.Build();
@@ -25,7 +25,7 @@ namespace SensorApp
             TConfig = cfg.GetSection("temperature").Get<TemperatureSensorConfig>();
         }
 
-        public void BuildXmlConfig()
+        public static void BuildXmlConfig()
         {
             IConfigurationBuilder builderX = new ConfigurationBuilder().AddXmlFile("sensorsettings.xml");
             var cfgX = builderX.Build();

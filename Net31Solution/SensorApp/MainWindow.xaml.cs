@@ -32,26 +32,10 @@ namespace SensorApp
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            //this.myGrid.ItemsSource = SensorsFactory.CreateSensors(3);
-            //this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
 
-            ConfigReader cfReader = new();
-            cfReader.BuildXmlConfig();
             this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
-            SensorsFactory.AddSensor(cfReader.TConfig);
-
-            //SensorsFactory.Sensors[0].GenerateWorkingValue();
-
 
             int i = 756;
-        }
-
-        private void ChangeSensorName(object sender, RoutedEventArgs e)
-        {
-            var sensor = (e.Source as Button).DataContext as Sensor;
-            //sensor.Name = Guid.NewGuid().ToString();
-            Random rnd = new Random();
-            sensor.MeasuredValue = rnd.Next();
         }
 
         private void ChangeSensorMode(object sender, RoutedEventArgs e)
@@ -70,9 +54,27 @@ namespace SensorApp
 
         private void LoadXmlConfigFile(object sender, RoutedEventArgs e)
         {
-            var configReader = (e.Source as Button).DataContext as ConfigReader;
-            ConfigReader cfReader = new();
-            cfReader.BuildXmlConfig();
+            ConfigReader.BuildXmlConfig();
+        }
+
+        private void LoadJsonConfigFile(object sender, RoutedEventArgs e)
+        {
+            ConfigReader.BuildJsonConfig();
+        }
+
+        private void AddPressureSensor_Click(object sender, RoutedEventArgs e)
+        {
+            SensorsFactory.AddSensor(ConfigReader.PConfig);
+        }
+
+        private void AddTemperatureSensor_Click(object sender, RoutedEventArgs e)
+        {
+            SensorsFactory.AddSensor(ConfigReader.TConfig);
+        }
+
+        private void AddMagneticSensor_Click(object sender, RoutedEventArgs e)
+        {
+            SensorsFactory.AddSensor(ConfigReader.MConfig);
         }
     }
 }
