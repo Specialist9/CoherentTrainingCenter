@@ -104,6 +104,7 @@ namespace SensorApp
             {
                 for(int i = 0; i < 100; i++)
                 {
+                    if (SensorMode != Mode.Calibration) break;
                     MeasuredValue = i;
                     await Task.Delay(1000);
                 }
