@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Configuration.Xml;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,20 +35,12 @@ namespace SensorApp
             //this.myGrid.ItemsSource = SensorsFactory.CreateSensors(3);
             //this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
 
-            //ConfigReader reader = new ConfigReader();
-            //int i = 756;
-            //reader.BuildXmlConfig();
-            /*
-            reader.BuildJsonConfig();
-            Sensor pSensor = new(reader.PConfig);
-            Sensor tSensor = new(reader.TConfig);
-            Sensor mSensor = new(reader.MConfig);
-            */
-
             ConfigReader cfReader = new();
             cfReader.BuildXmlConfig();
             this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
             SensorsFactory.AddSensor(cfReader.TConfig);
+
+            //SensorsFactory.Sensors[0].GenerateWorkingValue();
 
 
             int i = 756;

@@ -10,18 +10,7 @@ namespace SensorApp
     internal static class SensorsFactory
     {
         public static ObservableCollection<Sensor> Sensors { get; private set; } = new ObservableCollection<Sensor>();
-        /*
-        public static ObservableCollection<Sensor> CreateSensors(int count)
-        {
-            Sensor[] _sensors = new Sensor[count];
-            for (int i = 0; i < count; i++)
-            {
-                _sensors[i] = new Sensor(Guid.NewGuid().ToString(), i);
-            }
 
-            return new ObservableCollection<Sensor>(_sensors);
-        }
-        */
         public static ObservableCollection<Sensor> CreateSensors()
         {
             ConfigReader reader = new ConfigReader();
