@@ -32,12 +32,12 @@ class Program
             {
                 if (token1.IsCancellationRequested)
                 {
-                    return;
+                    break;
                 }
             }
 
         }, token1);
-
+        Task.WaitAll(task1);
 
         FileSystemWatcher WebSiteWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
         WebSiteWatcher.Filter = "appsettings.json";
@@ -46,11 +46,10 @@ class Program
 
         WebSiteWatcher.Changed += OnChanged;
 
-        void OnChanged(object source, FileSystemEventArgs e)
+        async void OnChanged(object source, FileSystemEventArgs e)
         {
             Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
             cancelT1.Cancel();
- 
         }
 
 

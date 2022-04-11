@@ -15,6 +15,7 @@ namespace Net24Task
     {
         public List<WebSite> Websites { get; set; }
         public WebSiteConfig[] WebsiteConfigs { get; set; }
+        //List of tasks TList
 
 
         public SiteMonitoringApp()
@@ -64,7 +65,14 @@ namespace Net24Task
         {
             foreach(var item in Websites)
             {
-                item.StartPingTimer();
+
+                Task.Run(() => item.StartPingTimer());
+                //item.StartPingTimer(); //start Task with ping timer
+                //TList.add Task
+            }
+            while(CancellationToken == true)
+            {
+                //Task.WaitAll(TList);
             }
         }
         
