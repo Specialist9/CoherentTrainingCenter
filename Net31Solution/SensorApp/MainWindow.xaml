@@ -17,14 +17,14 @@
 
         <DataGrid x:Name="myGrid" Margin="0,0,23,0" AutoGenerateColumns="False" >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding SensorType}" Header="Sensor Type" />
-                <DataGridTextColumn Binding="{Binding MeasuredValue}" Header="Measured Value"/>
-                <DataGridTextColumn Binding="{Binding SensorMode}" Header="Sensor Mode"/>
+                <DataGridTextColumn Binding="{Binding SensorType, UpdateSourceTrigger=PropertyChanged}" Header="Sensor Type" />
+                <DataGridTextColumn Binding="{Binding MeasuredValue, UpdateSourceTrigger=PropertyChanged}" Header="Measured Value"/>
+                <DataGridTextColumn Binding="{Binding SensorMode, UpdateSourceTrigger=PropertyChanged}" Header="Sensor Mode"/>
 
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="ChangeSensorMode">Change sensor mode</Button>
+                            <Button Click="ChangeSensorState">Change sensor mode</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -35,12 +35,19 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="TransitionSensorState">Change Sensor State</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="LoadJson" Grid.Column="1" Content="Load JSON Configuration" HorizontalAlignment="Center" Margin="0,13,0,0" VerticalAlignment="Top" Width="140" Height="20" Click="LoadJsonConfigFile"/>
         <Button x:Name="LoadXml" Grid.Column="1" Content="Load XML Configuration" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="140" Height="20" Click="LoadXmlConfigFile"/>
-        <Button x:Name="AddPressureSensor" Grid.Column="1" Content="Add Pressure Sensor" HorizontalAlignment="Center" Margin="0,109,0,0" VerticalAlignment="Top" Height="20" Width="135" Click="AddPressureSensor_Click"/>
+        <!--<Button x:Name="AddPressureSensor" Grid.Column="1" Content="Add Pressure Sensor" HorizontalAlignment="Center" Margin="0,109,0,0" VerticalAlignment="Top" Height="20" Width="135" Click="AddPressureSensor_Click"/>-->
         <Button x:Name="AddTemperatureSensor" Grid.Column="1" Content="Add Temperature Sensor" HorizontalAlignment="Center" Margin="0,134,0,0" VerticalAlignment="Top" Height="20" Width="135" Click="AddTemperatureSensor_Click"/>
-        <Button x:Name="AddMagneticSensor" Grid.Column="1" Content="Add Magnetic Sensor" HorizontalAlignment="Center" Margin="0,159,0,0" VerticalAlignment="Top" Height="20" Width="135" Click="AddMagneticSensor_Click"/>
+        <!--<Button x:Name="AddMagneticSensor" Grid.Column="1" Content="Add Magnetic Sensor" HorizontalAlignment="Center" Margin="0,159,0,0" VerticalAlignment="Top" Height="20" Width="135" Click="AddMagneticSensor_Click"/>-->
     </Grid>
 </Window>

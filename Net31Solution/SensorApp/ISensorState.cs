@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace SensorApp
 {
-    public class IdleValueGenerator : IValueGenerator
+    public interface ISensorState
     {
-        public int GetMeasuredValue()
-        {
-            return 0;
-        }
+        public void TransitionToState(Sensor sensor);
+        public int GetMeasuredValue(Sensor sensor);
     }
 }

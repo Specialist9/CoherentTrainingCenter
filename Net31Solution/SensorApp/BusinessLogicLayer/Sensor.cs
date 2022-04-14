@@ -8,8 +8,10 @@ using System.ComponentModel;
 
 namespace SensorApp
 {
-    internal class Sensor : INotifyPropertyChanged
+    public class Sensor : INotifyPropertyChanged
     {
+        public ISensorState SensorState { get; set; }
+
         private int _measuredValue;
         private Mode _sensorMode;
 
@@ -17,7 +19,7 @@ namespace SensorApp
         {
             get
             {
-                return _measuredValue;
+                return this.SensorState.GetMeasuredValue(this);
             }
             set
             {
@@ -49,15 +51,23 @@ namespace SensorApp
             Calibration,
             Working
         }
-        
 
-        public Sensor(ISensorConfig config)
+        public Sensor(ISensorState iState)
+        {
+            SensorState = iState;
+        }
+        
+        public Sensor(SensorConfig config)
         {
             Id = Guid.NewGuid();
-            MeasuredValue = config.MeasuredValue;
             MeasurementInterval = config.MeasurementInterval;
             SensorType = config.SensorType;
-            SensorMode = (Mode)config.SensorMode;
+            SensorState = new WorkingState();
+        }
+
+        public void TransitionTo()
+        {
+            this.SensorState.TransitionToState(this);
         }
 
 
@@ -71,27 +81,55 @@ namespace SensorApp
                 temp(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        /*
+        public void ChangeSensorState()
+        {
+            if(SensorState is IdleState)
+            {
+                SensorState = new CalibrationState();
+                SensorMode = Mode.Calibration;
+            }
+            else if(SensorState is CalibrationState)
+            {
+                SensorState = new WorkingState();
+                SensorMode = Mode.Working;
+            }
+            else if(SensorState is WorkingState)
+            {
+                SensorState = new IdleState();
+                SensorMode = Mode.Idle;
+            }
+        }
+        */
+
+
 
         public void ChangeSensorMode()
         {
             if (SensorMode == Mode.Calibration)
             {
                 SensorMode = Mode.Working;
-                GenerateWorkingValue();
+                //GenerateWorkingValue();
+
+                //MeasuredValue = temp.GetMeasuredValue();
             }
 
             else if (SensorMode == Mode.Working)
             {
                 SensorMode = Mode.Idle;
-                GenerateIdleValue();
+                //GenerateIdleValue();
+
             }
 
             else if(SensorMode == Mode.Idle)
             {
                 SensorMode = Mode.Calibration;
-                GenerateCalibrationValue();
+                //GenerateCalibrationValue();
+
             }
         }
+
+
 
         public void GenerateIdleValue()
         {
@@ -120,6 +158,7 @@ namespace SensorApp
                 await Task.Delay(MeasurementInterval);
             }
         }
+
 
     }
 }

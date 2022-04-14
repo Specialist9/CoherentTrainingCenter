@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Configuration.Xml;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +34,25 @@ namespace SensorApp
         private void Window_Initialized(object sender, EventArgs e)
         {
 
-            this.myGrid.ItemsSource = SensorsFactory.CreateSensors();
+            //this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
+            //ConfigReader.BuildXmlConfig();
+
+            Serializer ser = new Serializer();
+            string path = string.Empty;
+            string xmlInputData = string.Empty;
+
+
+            path = Directory.GetCurrentDirectory() + @"\sensorsettings3.xml";
+            xmlInputData = File.ReadAllText(path);
+            var something = ser.Deserialize<ConfigArray>(xmlInputData);
+            foreach(var config in something.SensorConfigs)
+            {
+                SensorsCollection.Sensors.Add(new Sensor(config));
+            }
+            this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
+
+            //SensorsCollection.Sensors[0].MeasuredValue = 27;
+
 
             int i = 756;
         }
@@ -49,7 +68,7 @@ namespace SensorApp
         {
             var sensor = (e.Source as Button).DataContext as Sensor;
 
-            SensorsFactory.RemoveSensor(sensor);
+            SensorsCollection.RemoveSensor(sensor);
         }
 
         private void LoadXmlConfigFile(object sender, RoutedEventArgs e)
@@ -64,17 +83,30 @@ namespace SensorApp
 
         private void AddPressureSensor_Click(object sender, RoutedEventArgs e)
         {
-            SensorsFactory.AddSensor(ConfigReader.PConfig);
+            //SensorsCollection.AddSensor(ConfigReader.PConfig);
         }
 
         private void AddTemperatureSensor_Click(object sender, RoutedEventArgs e)
         {
-            SensorsFactory.AddSensor(ConfigReader.TConfig);
+            SensorsCollection.AddSensor(ConfigReader.SConfig);
         }
 
         private void AddMagneticSensor_Click(object sender, RoutedEventArgs e)
         {
-            SensorsFactory.AddSensor(ConfigReader.MConfig);
+            //SensorsCollection.AddSensor(ConfigReader.MConfig);
+        }
+
+        private void ChangeSensorState(object sender, RoutedEventArgs e)
+        {
+            var sensor = (e.Source as Button).DataContext as Sensor;
+
+            //sensor.ChangeSensorState();
+        }
+
+        private void TransitionSensorState(object sender, RoutedEventArgs e)
+        {
+            var sensor = (e.Source as Button).DataContext as Sensor;
+            sensor.TransitionTo();
         }
     }
 }

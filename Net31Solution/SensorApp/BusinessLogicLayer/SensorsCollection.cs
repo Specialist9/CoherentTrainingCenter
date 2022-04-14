@@ -7,22 +7,30 @@ using System.Threading.Tasks;
 
 namespace SensorApp
 {
-    internal static class SensorsFactory
+    internal static class SensorsCollection
     {
         public static ObservableCollection<Sensor> Sensors { get; private set; } = new ObservableCollection<Sensor>();
 
         public static ObservableCollection<Sensor> CreateSensors()
         {
-            //ConfigReader reader = new ConfigReader();
-            //reader.BuildXmlConfig();
-            //reader.BuildJsonConfig();
-            //Sensors.Add(new Sensor(reader.PConfig));
-            //Sensors.Add(new Sensor(reader.TConfig));
-            //Sensors.Add(new Sensor(reader.MConfig));
+            /*
+            ConfigReader.BuildJsonConfig();
+            foreach(var config in ConfigReader.SensorConfigs)
+            {
+                Sensors.Add(new Sensor(config));
+            }
+            */
+            /*
+            ConfigReader.BuildXmlConfig();
+            foreach (var config in ConfigReader.SensorConfigsArray.SensorConfig)
+            {
+                Sensors.Add(new Sensor(config));
+            }
+            */
             return Sensors;
         }
 
-        public static void AddSensor(ISensorConfig config)
+        public static void AddSensor(SensorConfig config)
         {
             Sensors.Add(new Sensor(config));
         }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SensorApp
 {
-    public interface IValueGenerator
+    public class SensorConfig
     {
-        public int GetMeasuredValue();
+        public int MeasurementInterval { get; set; }
+        public string SensorType { get; set; }
     }
 }
