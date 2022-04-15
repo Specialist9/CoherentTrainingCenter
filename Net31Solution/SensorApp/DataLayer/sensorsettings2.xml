@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+   <configArray>
+      <sensorConfig>
+         <measurementInterval>1000</measurementInterval>
+         <sensorType>magnetic</sensorType>
+      </sensorConfig>
+      <sensorConfig>
+         <measurementInterval>4000</measurementInterval>
+         <sensorType>temperature</sensorType>
+      </sensorConfig>
+      <sensorConfig>
+         <measurementInterval>3000</measurementInterval>
+         <sensorType>pressure</sensorType>
+      </sensorConfig>
+   </configArray>
+</root>
