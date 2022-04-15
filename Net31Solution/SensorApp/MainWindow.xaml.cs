@@ -36,25 +36,15 @@ namespace SensorApp
 
             //this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
             //ConfigReader.BuildXmlConfig();
+            /*ConfigReader.BuildXmlConfig();
 
-            Serializer ser = new Serializer();
-            string path = string.Empty;
-            string xmlInputData = string.Empty;
-
-
-            path = Directory.GetCurrentDirectory() + @"\sensorsettings3.xml";
-            xmlInputData = File.ReadAllText(path);
-            var something = ser.Deserialize<ConfigArray>(xmlInputData);
-            foreach(var config in something.SensorConfigs)
+            foreach(var config in ConfigReader.SensorConfigsArray.SensorConfig)
             {
                 SensorsCollection.Sensors.Add(new Sensor(config));
             }
             this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
+            */
 
-            //SensorsCollection.Sensors[0].MeasuredValue = 27;
-
-
-            int i = 756;
         }
 
         private void ChangeSensorMode(object sender, RoutedEventArgs e)
@@ -74,11 +64,13 @@ namespace SensorApp
         private void LoadXmlConfigFile(object sender, RoutedEventArgs e)
         {
             ConfigReader.BuildXmlConfig();
+            this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
         }
 
         private void LoadJsonConfigFile(object sender, RoutedEventArgs e)
         {
             ConfigReader.BuildJsonConfig();
+            this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
         }
 
         private void AddPressureSensor_Click(object sender, RoutedEventArgs e)
@@ -88,7 +80,7 @@ namespace SensorApp
 
         private void AddTemperatureSensor_Click(object sender, RoutedEventArgs e)
         {
-            SensorsCollection.AddSensor(ConfigReader.SConfig);
+            //SensorsCollection.AddSensor(ConfigReader.SConfig);
         }
 
         private void AddMagneticSensor_Click(object sender, RoutedEventArgs e)

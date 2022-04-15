@@ -12,6 +12,6 @@ namespace SensorApp
     public class ConfigArray
     {
         [XmlElement("sensorConfig")]
-        public SensorConfig[] SensorConfigs { get; set; }
+        public SensorConfig[] SensorConfig { get; set; }
     }
 }
