@@ -8,25 +8,27 @@ namespace SensorApp
 {
     public class WorkingState : ISensorState
     {
-        public int currentValue;
-        public System.Timers.Timer checkTimer = null;
-        public Random Random1 = new Random();
+        private int _currentValue;
+        private System.Timers.Timer _checkTimer = null;
+        private Random _random = null;
 
         public WorkingState()
         {
-            checkTimer = new();
-            checkTimer.Interval = 1000;
-            checkTimer.Elapsed += ElapsedTimerEventHandler;
-            checkTimer.Start();
+            _random = new();
+
+            _checkTimer = new();
+            _checkTimer.Interval = 1000;
+            _checkTimer.Elapsed += ElapsedTimerEventHandler;
+            _checkTimer.Start();
         }
         public int GetMeasuredValue(Sensor sensor)
         {
-            return currentValue;
+            return _currentValue;
 
         }
         void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
-            currentValue = Random1.Next();
+            _currentValue = _random.Next();
         }
 
         public void TransitionToState(Sensor sensor)
