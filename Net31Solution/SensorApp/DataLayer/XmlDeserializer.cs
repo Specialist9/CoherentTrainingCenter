@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace SensorApp
 {
-    public class Serializer
+    public class XmlDeserializer
     {
         public T Deserialize<T>(string input) where T : class
         {
@@ -17,15 +17,5 @@ namespace SensorApp
             }
         }
 
-        public string Serialize<T>(T ObjectToSerialize)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(ObjectToSerialize.GetType());
-
-            using (StringWriter textWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(textWriter, ObjectToSerialize);
-                return textWriter.ToString();
-            }
-        }
     }
 }

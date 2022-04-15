@@ -34,24 +34,7 @@ namespace SensorApp
         private void Window_Initialized(object sender, EventArgs e)
         {
 
-            //this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
-            //ConfigReader.BuildXmlConfig();
-            /*ConfigReader.BuildXmlConfig();
 
-            foreach(var config in ConfigReader.SensorConfigsArray.SensorConfig)
-            {
-                SensorsCollection.Sensors.Add(new Sensor(config));
-            }
-            this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
-            */
-
-        }
-
-        private void ChangeSensorMode(object sender, RoutedEventArgs e)
-        {
-            var sensor = (e.Source as Button).DataContext as Sensor;
-            
-            sensor.ChangeSensorMode();
         }
 
         private void DeleteSensor(object sender, RoutedEventArgs e)
@@ -71,28 +54,6 @@ namespace SensorApp
         {
             ConfigReader.BuildJsonConfig();
             this.myGrid.ItemsSource = SensorsCollection.CreateSensors();
-        }
-
-        private void AddPressureSensor_Click(object sender, RoutedEventArgs e)
-        {
-            //SensorsCollection.AddSensor(ConfigReader.PConfig);
-        }
-
-        private void AddTemperatureSensor_Click(object sender, RoutedEventArgs e)
-        {
-            //SensorsCollection.AddSensor(ConfigReader.SConfig);
-        }
-
-        private void AddMagneticSensor_Click(object sender, RoutedEventArgs e)
-        {
-            //SensorsCollection.AddSensor(ConfigReader.MConfig);
-        }
-
-        private void ChangeSensorState(object sender, RoutedEventArgs e)
-        {
-            var sensor = (e.Source as Button).DataContext as Sensor;
-
-            //sensor.ChangeSensorState();
         }
 
         private void TransitionSensorState(object sender, RoutedEventArgs e)

@@ -13,20 +13,6 @@ namespace SensorApp
 
         public static ObservableCollection<Sensor> CreateSensors()
         {
-            /*
-            ConfigReader.BuildJsonConfig();
-            foreach(var config in ConfigReader.SensorConfigs)
-            {
-                Sensors.Add(new Sensor(config));
-            }
-            */
-            /*
-            ConfigReader.BuildXmlConfig();
-            foreach (var config in ConfigReader.SensorConfigsArray.SensorConfig)
-            {
-                Sensors.Add(new Sensor(config));
-            }
-            */
             return Sensors;
         }
 

@@ -1,0 +1,20 @@
+{
+	"configArray":
+
+		[
+
+			{
+				"sensorType": "magnetic",
+				"measurementInterval": 1000,
+			},
+			{
+				"sensorType": "temperature",
+				"measurementInterval": 4000,
+			},
+			{
+				"sensorType": "pressure",
+				"measurementInterval": 3000,
+			}
+
+		]
+}

@@ -8,31 +8,30 @@ namespace SensorApp
 {
     public class CalibrationState : ISensorState
     {
-        public int currentValue = 5;
+        public int currentValue = 0;
         System.Timers.Timer checkTimer = null;
+
         public CalibrationState()
         {
-            /*
             checkTimer = new();
             checkTimer.Interval = 1000;
             checkTimer.Elapsed += ElapsedTimerEventHandler;
             checkTimer.Start();
-            */
+
         }
         public int GetMeasuredValue(Sensor sensor)
         {
-
-            //return currentValue;
-            return 78;
+            return currentValue;
         }
 
         void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
         {
-            currentValue += 5;
+            currentValue += 1;
         }
         public void TransitionToState(Sensor sensor)
         {
             sensor.SensorState = new WorkingState();
+            sensor.SensorMode = Sensor.Mode.Working;
         }
     }
 }

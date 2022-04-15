@@ -10,12 +10,13 @@ namespace SensorApp
     {
         public int GetMeasuredValue(Sensor sensor)
         {
-            return 7;
+            return 0;
         }
 
         public void TransitionToState(Sensor sensor)
         {
             sensor.SensorState = new CalibrationState();
+            sensor.SensorMode = Sensor.Mode.Calibration;
         }
     }
 }

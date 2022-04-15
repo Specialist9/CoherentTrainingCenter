@@ -10,10 +10,10 @@ namespace SensorApp
 {
     public class Sensor : INotifyPropertyChanged
     {
-        public ISensorState SensorState { get; set; }
-
         private int _measuredValue;
         private Mode _sensorMode;
+        public ISensorState SensorState { get; set; }
+
 
         public int MeasuredValue
         {
@@ -62,7 +62,7 @@ namespace SensorApp
             Id = Guid.NewGuid();
             MeasurementInterval = config.MeasurementInterval;
             SensorType = config.SensorType;
-            SensorState = new WorkingState();
+            SensorState = new IdleState();
         }
 
         public void TransitionTo()
@@ -81,83 +81,8 @@ namespace SensorApp
                 temp(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        /*
-        public void ChangeSensorState()
-        {
-            if(SensorState is IdleState)
-            {
-                SensorState = new CalibrationState();
-                SensorMode = Mode.Calibration;
-            }
-            else if(SensorState is CalibrationState)
-            {
-                SensorState = new WorkingState();
-                SensorMode = Mode.Working;
-            }
-            else if(SensorState is WorkingState)
-            {
-                SensorState = new IdleState();
-                SensorMode = Mode.Idle;
-            }
-        }
-        */
 
 
-
-        public void ChangeSensorMode()
-        {
-            if (SensorMode == Mode.Calibration)
-            {
-                SensorMode = Mode.Working;
-                //GenerateWorkingValue();
-
-                //MeasuredValue = temp.GetMeasuredValue();
-            }
-
-            else if (SensorMode == Mode.Working)
-            {
-                SensorMode = Mode.Idle;
-                //GenerateIdleValue();
-
-            }
-
-            else if(SensorMode == Mode.Idle)
-            {
-                SensorMode = Mode.Calibration;
-                //GenerateCalibrationValue();
-
-            }
-        }
-
-
-
-        public void GenerateIdleValue()
-        {
-            MeasuredValue = 0;
-        }
-
-        public async Task GenerateCalibrationValue()
-        {
-            while (SensorMode == Mode.Calibration)
-            {
-                for(int i = 0; i < 100; i++)
-                {
-                    if (SensorMode != Mode.Calibration) break;
-                    MeasuredValue = i;
-                    await Task.Delay(1000);
-                }
-            }
-        }
-
-        public async Task GenerateWorkingValue()
-        {
-            while(SensorMode == Mode.Working)
-            {
-                Random random = new Random();
-                MeasuredValue = random.Next();
-                await Task.Delay(MeasurementInterval);
-            }
-        }
 
 
     }
