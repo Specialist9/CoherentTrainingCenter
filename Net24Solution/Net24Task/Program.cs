@@ -37,7 +37,7 @@ class Program
             }
 
         }, token1);
-        Task.WaitAll(task1);
+        //Task.WaitAll(task1);
 
         FileSystemWatcher WebSiteWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
         WebSiteWatcher.Filter = "appsettings.json";

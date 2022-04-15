@@ -13,7 +13,7 @@ namespace Net24Task
 {
     public class SiteMonitoringApp
     {
-        public List<WebSite> Websites { get; set; }
+        public List<WebSite> WebSites { get; set; }
         public WebSiteConfig[] WebsiteConfigs { get; set; }
         //List of tasks TList
 
@@ -24,11 +24,11 @@ namespace Net24Task
 
             WebsiteConfigs = cfg.GetSection("configArray").Get<WebSiteConfig[]>();
 
-            Websites = new();
+            WebSites = new();
 
             foreach (var config in WebsiteConfigs)
             {
-                Websites.Add(new WebSite(config));
+                WebSites.Add(new WebSite(config));
             }
 
         }
@@ -53,27 +53,21 @@ namespace Net24Task
 
             WebsiteConfigs = cfg.GetSection("configArray").Get<WebSiteConfig[]>();
 
-            Websites = new();
+            WebSites = new();
 
             foreach (var config in WebsiteConfigs)
             {
-                Websites.Add(new WebSite(config));
+                WebSites.Add(new WebSite(config));
             }
         }
 
         public void StartTimers()
         {
-            foreach(var item in Websites)
+            foreach(var item in WebSites)
             {
+                item.StartPingTimer();
+            }
 
-                Task.Run(() => item.StartPingTimer());
-                //item.StartPingTimer(); //start Task with ping timer
-                //TList.add Task
-            }
-            while(CancellationToken == true)
-            {
-                //Task.WaitAll(TList);
-            }
         }
         
     }

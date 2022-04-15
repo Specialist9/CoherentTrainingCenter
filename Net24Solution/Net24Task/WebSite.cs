@@ -13,37 +13,37 @@ namespace Net24Task
 {
     public class WebSite
     {
-        public int CheckInterval { get; set; }
-        public int ServerResponseTime { get; set; }
-        public string PageUrl { get; set; }
-        public string AdminEmail { get; set; }
+        private int _checkInterval;
+        private int _serverResponseTime;
+        private string _pageUrl;
+        private string _adminEmail;
 
-        public Ping PingSite { get; set; }
-        public PingReply SiteReply { get; set; }
+        private Ping _pingSite;
+        private PingReply _siteReply;
 
 
         public WebSite(WebSiteConfig config)
         {
-            CheckInterval = config.CheckInterval;
-            ServerResponseTime = config.ServerResponseTime;
-            PageUrl = config.PageUrl;
-            AdminEmail = config.AdminEmail;
+            _checkInterval = config.CheckInterval;
+            _serverResponseTime = config.ServerResponseTime;
+            _pageUrl = config.PageUrl;
+            _adminEmail = config.AdminEmail;
         }
 
         public void StartPingTimer()
         {
             System.Timers.Timer pingTimer = new();
-            pingTimer.Interval = CheckInterval;
+            pingTimer.Interval = _checkInterval;
             pingTimer.Elapsed += ElapsedTimerEventHandler;
             pingTimer.Start();
         }
         
         async Task<PingReply> GetPingReplyAsync()
         {
-            PingSite = new();
-            SiteReply = PingSite.Send(PageUrl);
+            _pingSite = new();
+            _siteReply = _pingSite.Send(_pageUrl);
 
-            return SiteReply;
+            return _siteReply;
         }
 
         async void ElapsedTimerEventHandler(object sender, System.Timers.ElapsedEventArgs e)
@@ -62,54 +62,54 @@ namespace Net24Task
             var smtpClient = new SmtpClient("mail.gmx.net")
             {
                 Port = 587,
-                Credentials = new NetworkCredential(AdminEmail, "Defiant9?"),
+                Credentials = new NetworkCredential(_adminEmail, "Defiant9?"),
                 EnableSsl = true,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
             };
 
-            if (SiteReply.Status != IPStatus.Success || SiteReply.RoundtripTime > ServerResponseTime)
+            if (_siteReply.Status != IPStatus.Success || _siteReply.RoundtripTime > _serverResponseTime)
             {
-                smtpClient.Send("sugarush@gmx.de", AdminEmail, $"{PageUrl} - Server time out", "messagebody");
+                smtpClient.Send("sugarush@gmx.de", _adminEmail, $"{_pageUrl} - Server time out", "messagebody");
             }
         }
 
 
-        public async Task LogWebSiteStatus()
+        public void LogWebSiteStatus()
         {
             StringBuilder temp = new();
 
-            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
+            if (_siteReply.Status == IPStatus.Success && _siteReply.RoundtripTime < _serverResponseTime)
             {
-                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
+                temp.AppendLine($"{DateTime.Now} \tHost: {_pageUrl} \tStatus: {_siteReply.Status} \tResponse time: {_siteReply.RoundtripTime}");
 
             }
-            else if (SiteReply.Status != IPStatus.Success || SiteReply.RoundtripTime > ServerResponseTime)
+            else if (_siteReply.Status != IPStatus.Success || _siteReply.RoundtripTime > _serverResponseTime)
             {
-                temp.AppendLine($"{DateTime.Now} \tHost: {PageUrl} \tStatus: Unavailable");
+                temp.AppendLine($"{DateTime.Now} \tHost: {_pageUrl} \tStatus: Unavailable");
             }
 
             File.AppendAllText($"{DateTime.UtcNow.ToString("yyyy-MM-dd")} SiteResponseLog.txt", temp.ToString());
 
         }
 
-        public async Task DisplayPingResult()
+        public void DisplayPingResult()
         {
-            if (SiteReply.Status == IPStatus.Success && SiteReply.RoundtripTime < ServerResponseTime)
+            if (_siteReply.Status == IPStatus.Success && _siteReply.RoundtripTime < _serverResponseTime)
             {
-                Console.WriteLine($"Host: {PageUrl} \tStatus: {SiteReply.Status} \tResponse time: {SiteReply.RoundtripTime}");
+                Console.WriteLine($"Host: {_pageUrl} \tStatus: {_siteReply.Status} \tResponse time: {_siteReply.RoundtripTime}");
 
             }
-            else if (SiteReply.RoundtripTime > ServerResponseTime)
+            else if (_siteReply.RoundtripTime > _serverResponseTime)
             {
-                Console.WriteLine($"Host: {PageUrl} \tStatus: Unavailable");
+                Console.WriteLine($"Host: {_pageUrl} \tStatus: Unavailable");
             }
         }
 
         public override string ToString()
         {
             StringBuilder temp = new();
-            temp.AppendLine($"Host: {PageUrl} \tInterval s: {CheckInterval/1000} \tResponse time: {AdminEmail}");
+            temp.AppendLine($"Host: {_pageUrl} \tInterval s: {_checkInterval/1000} \tResponse time: {_adminEmail}");
             return temp.ToString();
         }
     }
